@@ -71,6 +71,10 @@ body.locked main,body.locked header,body.locked footer{visibility:hidden}
 body.invitation-open .invitation-card{animation:invitation-arrive 1.3s cubic-bezier(.2,.7,.2,1) both}
 @keyframes invitation-arrive{from{opacity:0;transform:translateY(22px) scale(.98);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
 @media(max-width:650px){.letter-monogram{font-size:44px}.envelope-letter{gap:14px}.letter-date{font-size:11px;letter-spacing:2px}}
+
+@keyframes envelope-away{0%,25%{transform:translateY(0) rotateX(0) scale(1);opacity:1}62%{transform:translateY(11%) rotateX(-5deg) scale(.96);opacity:1}100%{transform:translateY(24%) rotateX(-8deg) scale(.9);opacity:0}}
+@keyframes aura-bloom{0%{opacity:.3;transform:scale(.8)}40%{opacity:.75;transform:scale(1.15)}78%{opacity:1;transform:scale(1.6)}100%{opacity:0;transform:scale(2)}}
+@keyframes label-fade{to{opacity:0;transform:translateY(8px)}}
 </style></head><body class="locked">
 <div id="cover"><div class="opening-aura" aria-hidden="true"></div><div class="envelope"><div class="envelope-lining" aria-hidden="true"></div><div class="envelope-letter" aria-hidden="true"><div class="letter-rule"></div><span class="letter-flourish">❦</span><span class="letter-monogram">J <i>&</i> K</span><span class="letter-date">25 · 26 · XII · 2026</span><div class="letter-rule"></div></div><div class="envelope-pocket" aria-hidden="true"></div><div class="flap"></div><div class="cover-title" data-t="coverTitle">THE WEDDING OF</div><button class="seal" aria-label="Open wedding invitation">J & K</button><div class="cover-names" data-t="coverNames">Jay & Krutika</div><div class="open-label" data-t="coverOpen">TAP THE SEAL TO OPEN</div></div></div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
