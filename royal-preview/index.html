@@ -132,17 +132,71 @@ body{background:radial-gradient(ellipse at top,#f8cbad,#fff2df 60%)}
 .countdown>div{background:linear-gradient(150deg,#864373,#432749)}
 .countdown>div:nth-child(2n){background:linear-gradient(150deg,#a64451,#662235)}
 @media(prefers-reduced-motion:reduce){.palace-cities{transition:none}}
+
+#cover.courtyard-cover{
+  isolation:isolate;overflow:hidden;display:grid;place-items:center;
+  background:#291629;color:#fff0cf;perspective:1100px;
+  transition:opacity .6s 2s,visibility 0s 2.6s;
+}
+.courtyard-atmosphere,.courtyard-arch,.courtyard-steps{position:absolute;pointer-events:none}
+.courtyard-atmosphere{inset:0;background:
+  radial-gradient(ellipse at 50% 80%,#ffc079 0%,#ad514e 22%,transparent 60%),
+  linear-gradient(120deg,#321c45,#382642 45%,#551e32);
+}
+.courtyard-tower{position:absolute;inset-block:0;width:34%;background:
+  radial-gradient(circle,#f6bf7f82 0 1px,transparent 2px) 0 0/18px 18px,
+  linear-gradient(90deg,#24172d,#613844 74%,#ca835d);
+  border-inline:4px double #f3bb7a;box-shadow:inset 0 0 0 13px #492739;
+}
+.tower-west{left:0;clip-path:polygon(0 0,100% 0,100% 15%,89% 15%,89% 22%,81% 22%,81% 29%,73% 29%,73% 100%,0 100%)}
+.tower-east{right:0;transform:scaleX(-1);background:
+  repeating-radial-gradient(ellipse at 28% 50%,transparent 0 15px,#ffdab657 16px 17px,transparent 18px 28px),
+  linear-gradient(90deg,#31172a,#863540 80%,#de946b);
+  clip-path:polygon(0 0,100% 0,100% 16%,91% 16%,91% 22%,82% 22%,82% 29%,73% 29%,73% 100%,0 100%);
+}
+.courtyard-steps{inset:auto 0 0;height:28%;background:repeating-linear-gradient(to top,#662e3c 0 6px,#d88c6280 7px 9px,#932e45 10px 21px);clip-path:polygon(27% 0,73% 0,100% 100%,0 100%);opacity:.85}
+.courtyard-arch{inset:5% 22% 11%;border:9px double #ffd493;border-bottom:0;border-radius:50% 50% 0 0 / 34% 34% 0 0;box-shadow:0 0 0 8px #642d3d,0 0 0 10px #d18a58,0 0 32px #ffbd7580}
+.courtyard-leaf{position:absolute;inset-block:7% 11%;width:28%;background:repeating-linear-gradient(35deg,#ffe0ab2a 0 1px,transparent 1px 22px),linear-gradient(90deg,#532840,#8d3949);border:5px double #eead70;box-shadow:inset 0 0 0 10px #451f34,inset 0 0 0 12px #c4815d;transition:transform 1.55s .18s cubic-bezier(.5,0,.2,1),opacity .6s 1.2s}
+.leaf-west{left:22%;transform-origin:left;border-radius:100% 0 0 0 / 32% 0 0 0}
+.leaf-east{right:22%;transform-origin:right;border-radius:0 100% 0 0 / 0 32% 0 0}
+.opening .leaf-west{transform:rotateY(-104deg);opacity:0}
+.opening .leaf-east{transform:rotateY(104deg);opacity:0}
+.courtyard-lantern{position:absolute;top:29%;width:19px;height:36px;border:3px double #ffdc9b;border-radius:44%;background:#ffdc957a;box-shadow:0 0 27px 9px #ffb85e55;animation:courtyard-glow 2.6s ease-in-out infinite alternate}
+.lantern-west{left:15%}.lantern-east{right:15%;animation-delay:-1.15s}
+@keyframes courtyard-glow{to{box-shadow:0 0 45px 16px #ffc77b7a;transform:translateY(4px)}}
+.courtyard-title{position:relative;z-index:2;width:min(86vw,740px);text-align:center;padding:24px;color:#fff5da;text-shadow:0 3px 16px #321121;transition:opacity .5s,transform .7s}
+.courtyard-label{letter-spacing:.23em;font-size:clamp(12px,2vw,19px);margin:0}
+.courtyard-names{font:clamp(58px,12vw,138px)/.95 'Great Vibes',cursive;margin:.28em 0 .14em}
+html:not([lang=en]) .courtyard-names{font:inherit;font-size:clamp(35px,8vw,90px);line-height:1.25}
+.courtyard-cities{margin:0 0 24px;font-size:clamp(16px,3vw,24px)}
+#cover .courtyard-open{position:static;transform:none;width:auto;height:auto;padding:12px 22px;border:1px solid #ffe4aa;border-radius:3px;background:#f5d79e;color:#3f2034;font:inherit;font-size:18px;box-shadow:0 5px 22px #32112188}
+#cover.opening .courtyard-open{animation:none}
+.opening .courtyard-title{opacity:0;transform:translateY(-16px)}
+.opening .courtyard-atmosphere{animation:palace-bloom 2.3s ease-out both}
+@media(max-width:650px){
+  .courtyard-arch{inset-inline:10%}.courtyard-leaf{width:40%}.leaf-west{left:10%}.leaf-east{right:10%}
+  .courtyard-tower{width:19%}.lantern-west{left:5%}.lantern-east{right:5%}
+}
+@media(prefers-reduced-motion:reduce){
+  .courtyard-lantern,.opening .courtyard-atmosphere{animation:none}
+  .courtyard-title,.courtyard-leaf{transition:none}
+}
 </style></head><body class="locked">
-<div id="cover">
-  <div class="palace-sky" aria-hidden="true"></div><div class="cross-city-band" aria-hidden="true"><span></span><span></span></div>
-  <div class="palace-portal">
-    <div class="palace-light" aria-hidden="true"></div>
-    <div class="palace-gate gate-left" aria-hidden="true"></div>
-    <div class="palace-gate gate-right" aria-hidden="true"></div>
-    <div class="palace-label" data-t="coverTitle"></div><div class="palace-cities" data-t="palaceCities"></div>
-    <div class="palace-names" data-t="coverNames"></div>
-    <button class="seal palace-seal" aria-label="Open wedding invitation">J &amp; K</button>
-    <p class="palace-prompt" data-t="palaceOpen"></p>
+<div id="cover" class="courtyard-cover">
+  <div class="courtyard-atmosphere" aria-hidden="true"></div>
+  <div class="courtyard-tower tower-west" aria-hidden="true"></div>
+  <div class="courtyard-tower tower-east" aria-hidden="true"></div>
+  <div class="courtyard-steps" aria-hidden="true"></div>
+  <div class="courtyard-arch" aria-hidden="true"></div>
+  <div class="courtyard-leaf leaf-west" aria-hidden="true"></div>
+  <div class="courtyard-leaf leaf-east" aria-hidden="true"></div>
+  <div class="courtyard-lantern lantern-west" aria-hidden="true"></div>
+  <div class="courtyard-lantern lantern-east" aria-hidden="true"></div>
+  <div class="courtyard-title">
+    <p class="courtyard-label" data-t="coverTitle"></p>
+    <p class="courtyard-names" data-t="coverNames"></p>
+    <p class="courtyard-cities" data-t="palaceCities"></p>
+    <button class="seal courtyard-open" data-t="palaceOpen" aria-label="Open wedding invitation"></button>
   </div>
 </div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
