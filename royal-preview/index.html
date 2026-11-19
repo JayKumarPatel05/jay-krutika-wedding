@@ -246,13 +246,9 @@ main{max-width:none}
 .courtyard-heading{margin:0;font:400 clamp(52px,8.8vw,122px)/1.13 'Great Vibes',cursive}
 html:not([lang=en]) .courtyard-kicker{font-family:inherit;letter-spacing:.03em}
 html:not([lang=en]) .courtyard-heading{font-family:inherit;font-size:clamp(30px,6vw,75px);line-height:1.5}
-.courtyard-flourish{
-  display:flex;justify-content:center;align-items:center;gap:12px;margin:7px auto 0;color:#ffdfa2;font-size:18px;
+.courtyard-welcome{
+  max-width:29em;margin:8px auto 0;color:#fff1d2;font-size:clamp(15px,2.1vw,23px);line-height:1.5;
 }
-.courtyard-flourish::before,.courtyard-flourish::after{
-  content:'';width:clamp(38px,8vw,100px);height:1px;background:linear-gradient(90deg,transparent,currentColor);
-}
-.courtyard-flourish::after{transform:scaleX(-1)}
 .courtyard-scroll{
   position:absolute;z-index:2;left:50%;bottom:max(30px,calc(env(safe-area-inset-bottom) + 16px));
   display:grid;place-items:center;width:46px;height:46px;border-radius:50%;
@@ -540,7 +536,7 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
   <div class="courtyard-lockup">
     <p class="courtyard-kicker" data-t="invitationTitle"></p>
     <h1 class="courtyard-heading" id="courtyard-title" tabindex="-1" data-t="coverNames"></h1>
-    <div class="courtyard-flourish" aria-hidden="true">✦</div>
+    <p class="courtyard-welcome" data-t="courtyardWelcome"></p>
   </div>
   <a class="courtyard-scroll" href="#wedding-date-card"><span class="down-arrow" aria-hidden="true"></span><span class="visually-hidden" data-t="courtyardScroll"></span></a>
 </section>
@@ -642,6 +638,9 @@ const revealCopy = {
 for (const [language, labels] of Object.entries(revealCopy)) {
  Object.assign(copy[language], labels, {weddingDateShort:copy[language].datesShort[1]});
 }
+copy.en.courtyardWelcome = 'Together with our families, we invite you to celebrate our wedding.';
+copy.gu.courtyardWelcome = 'અમારા પરિવારો સાથે મળીને અમે આપને અમારા લગ્નોત્સવમાં હાર્દિક આમંત્રણ આપીએ છીએ.';
+copy.hi.courtyardWelcome = 'अपने परिवारों के साथ हम आपको अपने विवाह उत्सव में सादर आमंत्रित करते हैं।';
 copy.en.palaceCities = 'Ahmedabad · Kolkata';
 copy.hi.palaceCities = 'अहमदाबाद · कोलकाता';
 copy.gu.palaceCities = 'અમદાવાદ · કોલકાતા';
