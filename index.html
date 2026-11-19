@@ -88,8 +88,44 @@ body.invitation-open .invitation-card{animation:invitation-arrive 1.3s cubic-bez
 .family-section .prayer-hands{color:#ad8848}
 html:not([lang=en]) .family-section li{font-size:17px;line-height:2}html:not([lang=en]) .family-ancestor{font-size:20px;line-height:1.9}html:not([lang=en]) .family-intro{font-size:17px}html:not([lang=en]) .family-section .family-greeting p{font-size:20px}
 @media(max-width:650px){.family-section{padding:50px 25px}.family-lists{grid-template-columns:1fr;gap:0}.family-lists ul+ul{margin-top:18px;padding-top:18px;border-top:1px solid #bb925755}.family-section li{font-size:20px;padding:10px 0}.family-ancestor{font-size:22px}.young-family ul{grid-template-columns:1fr}.family-intro{font-size:19px}.family-section .family-greeting p{font-size:22px}}
-.family-group{max-width:850px;margin:32px auto 0}.family-group+.family-group{padding-top:26px;border-top:1px solid #bb925744}.family-group h3{font-weight:400;margin:0 0 18px}.ordered-family-list{display:grid;grid-template-columns:1fr 1fr;gap:0 35px}.family-group .family-ancestor{margin-bottom:14px}.family-group li{border-bottom:1px solid #bb925722}@media(max-width:650px){.ordered-family-list{grid-template-columns:1fr}.family-group{margin-top:25px}}html:not([lang=en]) .family-group h3{letter-spacing:0;font-size:16px}.family-couples{max-width:900px;margin:30px auto 0}.family-couples table{width:100%;table-layout:fixed;border-collapse:collapse}.family-couples td{width:50%;padding:18px 16px;vertical-align:middle;font-size:21px;line-height:1.7;color:#654536;border-bottom:1px solid #bb925733;overflow-wrap:anywhere;text-align:center}.family-couples td+td{border-left:1px solid #bb925733}.family-children{max-width:850px;margin:30px auto 0;padding-top:14px}.family-children li{border-bottom:1px solid #bb925722}html:not([lang=en]) .family-couples td{font-size:17px;line-height:2}@media(max-width:650px){.family-couples{margin-top:20px}.family-couples td{padding:14px 8px;font-size:17px;line-height:1.7}html:not([lang=en]) .family-couples td{font-size:14px;line-height:1.9}.family-children{margin-top:22px}}.family-children .ordered-family-list{grid-template-columns:1fr 1fr}@media(max-width:650px){.family-children .ordered-family-list{gap:0 16px}.family-children li{font-size:17px}html:not([lang=en]) .family-children li{font-size:14px}}</style></head><body class="locked">
-<div id="cover"><div class="opening-aura" aria-hidden="true"></div><div class="envelope"><div class="envelope-lining" aria-hidden="true"></div><div class="envelope-letter" aria-hidden="true"><div class="letter-rule"></div><span class="letter-flourish">❦</span><span class="letter-monogram">J <i>&</i> K</span><span class="letter-date">25 · 26 · XII · 2026</span><div class="letter-rule"></div></div><div class="envelope-pocket" aria-hidden="true"></div><div class="flap"></div><div class="cover-title" data-t="coverTitle">THE WEDDING OF</div><button class="seal" aria-label="Open wedding invitation">J & K</button><div class="cover-names" data-t="coverNames">Jay & Krutika</div><div class="open-label" data-t="coverOpen">TAP THE SEAL TO OPEN</div></div></div>
+.family-group{max-width:850px;margin:32px auto 0}.family-group+.family-group{padding-top:26px;border-top:1px solid #bb925744}.family-group h3{font-weight:400;margin:0 0 18px}.ordered-family-list{display:grid;grid-template-columns:1fr 1fr;gap:0 35px}.family-group .family-ancestor{margin-bottom:14px}.family-group li{border-bottom:1px solid #bb925722}@media(max-width:650px){.ordered-family-list{grid-template-columns:1fr}.family-group{margin-top:25px}}html:not([lang=en]) .family-group h3{letter-spacing:0;font-size:16px}.family-couples{max-width:900px;margin:30px auto 0}.family-couples table{width:100%;table-layout:fixed;border-collapse:collapse}.family-couples td{width:50%;padding:18px 16px;vertical-align:middle;font-size:21px;line-height:1.7;color:#654536;border-bottom:1px solid #bb925733;overflow-wrap:anywhere;text-align:center}.family-couples td+td{border-left:1px solid #bb925733}.family-children{max-width:850px;margin:30px auto 0;padding-top:14px}.family-children li{border-bottom:1px solid #bb925722}html:not([lang=en]) .family-couples td{font-size:17px;line-height:2}@media(max-width:650px){.family-couples{margin-top:20px}.family-couples td{padding:14px 8px;font-size:17px;line-height:1.7}html:not([lang=en]) .family-couples td{font-size:14px;line-height:1.9}.family-children{margin-top:22px}}.family-children .ordered-family-list{grid-template-columns:1fr 1fr}@media(max-width:650px){.family-children .ordered-family-list{gap:0 16px}.family-children li{font-size:17px}html:not([lang=en]) .family-children li{font-size:14px}}
+:root{--wine:#16254d;--gold:#c39142;--paper:#fff2df;--ink:#442b3b}
+#cover{display:grid;place-items:center;background:#111b3b;color:#ffe0a0;transition:opacity .55s 2.05s,visibility 0s 2.6s}
+.palace-sky{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 75%,#934c49,transparent 65%),repeating-linear-gradient(45deg,#e7b86712 0 1px,transparent 1px 15px),linear-gradient(135deg,#101a38,#263762 50%,#150e2a)}
+.palace-portal{width:min(84vw,440px,59svh);height:min(77svh,610px);position:relative;isolation:isolate;perspective:850px;border:4px double #eabd70;border-radius:50% 50% 8px 8px / 29% 29% 8px 8px;overflow:hidden;box-shadow:0 0 0 9px #c9954b30,0 20px 70px #090a17}
+.palace-light{position:absolute;inset:0;background:radial-gradient(ellipse at center,#fff7d5,#e6a96e 35%,#a15348 65%,#292447);transform:scale(.9)}
+.palace-gate{position:absolute;top:0;bottom:0;width:50%;background:repeating-linear-gradient(45deg,#d9a95c55 0 1px,transparent 1px 20px),repeating-linear-gradient(-45deg,#d9a95c55 0 1px,transparent 1px 20px),linear-gradient(135deg,#34497e,#141f43 65%);border:2px solid #b3834a;transition:transform 1.8s .12s cubic-bezier(.4,.05,.2,1);box-shadow:inset 0 0 0 8px #172146,inset 0 0 0 10px #c7965a}
+.gate-left{left:0;transform-origin:left center}.gate-right{right:0;transform-origin:right center}
+.opening .gate-left{transform:rotateY(-108deg)}.opening .gate-right{transform:rotateY(108deg)}
+.opening .palace-light{animation:palace-bloom 2.3s ease-out both}
+@keyframes palace-bloom{0%{transform:scale(.9);filter:brightness(.8)}65%,100%{transform:scale(1.25);filter:brightness(1.55)}}
+.palace-label,.palace-names,.palace-prompt{position:absolute;inset-inline:10px;text-align:center;transition:opacity .35s;pointer-events:none;text-shadow:0 2px 10px #100f24}
+.palace-label{top:22%;font-size:14px;letter-spacing:.17em}.palace-names{top:61%;font-size:clamp(25px,7vw,48px);line-height:1.3}.palace-prompt{bottom:5%;font-size:15px;margin:0}
+#cover .palace-seal{top:47%;background:radial-gradient(circle at 38% 28%,#fff0bf,#a96926);color:#352038;border-color:#ffdda1}
+.opening .palace-label,.opening .palace-names,.opening .palace-prompt{opacity:0}
+body{background:radial-gradient(ellipse at top,#f8cbad,#fff2df 60%)}
+.sacred-page{background:radial-gradient(ellipse at 50% 5%,#fff7e6,#f7d4bf 65%,#e2a6a5)}
+.invitation-card{background:#fff6e7;border-color:#be8743;outline-color:#c0925fa0;box-shadow:0 16px 50px #662e3a24}
+.schedule{background:#f6dacb}.family-section{background:#fff2df}
+.countdown-section{background:linear-gradient(155deg,#1a274f,#2c3960 50%,#532c50);color:#fff2da}
+.countdown-section .eyebrow{color:#ffe0a6}
+.countdown>div{width:clamp(57px,15vw,116px);padding:12px 3px 10px;border:3px double #f4c874;border-radius:48% 48% 5px 5px / 36% 36% 5px 5px;background:linear-gradient(150deg,#933e66,#542648)}
+.countdown>div:nth-child(2n){background:linear-gradient(150deg,#9d572c,#623445)}
+.countdown small{letter-spacing:0}
+@media(prefers-reduced-motion:reduce){.palace-gate,.palace-label,.palace-names,.palace-prompt{transition:none}.opening .palace-light{animation:none}}
+</style></head><body class="locked">
+<div id="cover">
+  <div class="palace-sky" aria-hidden="true"></div>
+  <div class="palace-portal">
+    <div class="palace-light" aria-hidden="true"></div>
+    <div class="palace-gate gate-left" aria-hidden="true"></div>
+    <div class="palace-gate gate-right" aria-hidden="true"></div>
+    <div class="palace-label" data-t="coverTitle"></div>
+    <div class="palace-names" data-t="coverNames"></div>
+    <button class="seal palace-seal" aria-label="Open wedding invitation">J &amp; K</button>
+    <p class="palace-prompt" data-t="palaceOpen"></p>
+  </div>
+</div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
 <main><section class="hero sacred-page" aria-labelledby="invitation-title"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <circle cx="90" cy="83" r="66" stroke-width=".65" opacity=".2"/>
@@ -126,6 +162,9 @@ const extraFamily = {"gu":["મોસાળ પક્ષ","ભાવેશ જ�
 for (const [language, entries] of Object.entries(extraFamily)) {
   entries.forEach((entry, index) => { copy[language]['extraFamily' + index] = entry; });
 }
+copy.en.palaceOpen = 'Tap to open the gates';
+copy.hi.palaceOpen = 'द्वार खोलने के लिए स्पर्श करें';
+copy.gu.palaceOpen = 'દ્વાર ખોલવા સ્પર્શ કરો';
 let lang=localStorage.getItem('wedding-language')||'en';if(!copy[lang])lang='en';
 function countdown(){const left=Math.max(0,new Date('2026-12-26T15:15:00+05:30')-Date.now());const values=[Math.floor(left/86400000),Math.floor(left/3600000)%24,Math.floor(left/60000)%60,Math.floor(left/1000)%60];document.querySelector('.countdown').innerHTML=values.map((n,i)=>`<div><b>${n.toLocaleString(lang==='gu'?'gu-IN':lang==='hi'?'hi-IN':'en-IN',{minimumIntegerDigits:2})}</b><small>${copy[lang].days[i]}</small></div>`).join('')}
 function render(){document.documentElement.lang=lang;renderFamily();document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=copy[lang][e.dataset.t]);document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));document.querySelector('#days').innerHTML=copy[lang].events.map((events,d)=>`<article class="day"><h3>${copy[lang].datesShort[d]}</h3>${events.map((name,i)=>`<div class="event"><time>${copy[lang].times[d][i]}</time><span>${name}</span></div>`).join('')}</article>`).join('');countdown()}
@@ -167,7 +206,7 @@ seal.onclick=()=>{
   heading.setAttribute('tabindex','-1');
   heading.focus({preventScroll:true});
   requestAnimationFrame(resetToTop);
- },reduced?0:3500);
+ },reduced?0:2600);
 };
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
 
