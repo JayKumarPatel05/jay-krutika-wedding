@@ -113,14 +113,33 @@ body{background:radial-gradient(ellipse at top,#f8cbad,#fff2df 60%)}
 .countdown>div:nth-child(2n){background:linear-gradient(150deg,#9d572c,#623445)}
 .countdown small{letter-spacing:0}
 @media(prefers-reduced-motion:reduce){.palace-gate,.palace-label,.palace-names,.palace-prompt{transition:none}.opening .palace-light{animation:none}}
+
+/* Ahmedabad meets Kolkata: bandhani dots, stepped geometry and alpana petals. */
+:root{--wine:#702234;--gold:#bd8743;--paper:#fff5e5;--ink:#472b31}
+#cover{background:#4c1b30}
+.palace-sky{background:radial-gradient(ellipse at 50% 80%,#bc7258,transparent 65%),linear-gradient(112deg,#432244 0%,#74304a 48%,#6d2331 52%,#360e20 100%)}
+.cross-city-band{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;pointer-events:none;opacity:.27}
+.cross-city-band span:first-child{background:radial-gradient(circle,#fbd29a 0 1.5px,transparent 2.5px) 0 0/21px 21px,radial-gradient(circle,#fbd29a 0 1px,transparent 2px) 10px 10px/21px 21px}
+.cross-city-band span:last-child{background:repeating-radial-gradient(ellipse at 100% 64%,transparent 0 26px,#ffe7c7 27px 28px,transparent 30px 42px)}
+.palace-portal{border-radius:42% 42% 6px 6px / 24% 24% 6px 6px}
+.gate-left{background:radial-gradient(circle,#dfae72 0 1px,transparent 2px) 0 0/13px 13px,linear-gradient(135deg,#793b6b,#412447)}
+.gate-left::after{content:"";position:absolute;inset:14% 12%;background:#ebbe7d;clip-path:polygon(0 0,85% 0,85% 12%,72% 12%,72% 24%,59% 24%,59% 36%,46% 36%,46% 38%,61% 38%,61% 26%,74% 26%,74% 14%,87% 14%,87% 0,100% 0,100% 100%,0 100%,0 98%,98% 98%,98% 2%,0 2%);opacity:.8}
+.gate-right{background:linear-gradient(135deg,#a84953,#591c30)}
+.gate-right::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 18% 8% at 78% 27%,transparent 84%,#ffe2b0 90% 96%,transparent),radial-gradient(ellipse 8% 18% at 78% 27%,transparent 84%,#ffe2b0 90% 96%,transparent),radial-gradient(ellipse 18% 8% at 78% 74%,transparent 84%,#ffe2b0 90% 96%,transparent),radial-gradient(ellipse 8% 18% at 78% 74%,transparent 84%,#ffe2b0 90% 96%,transparent);opacity:.72}
+.palace-cities{position:absolute;inset-inline:8px;top:73%;text-align:center;color:#fff1d3;font-size:clamp(13px,3.3vw,20px);text-shadow:0 2px 6px #310f23;transition:opacity .35s;pointer-events:none}
+.opening .palace-cities{opacity:0}
+.countdown-section{background:linear-gradient(125deg,#47264f,#742c42 60%,#651d32)}
+.countdown>div{background:linear-gradient(150deg,#864373,#432749)}
+.countdown>div:nth-child(2n){background:linear-gradient(150deg,#a64451,#662235)}
+@media(prefers-reduced-motion:reduce){.palace-cities{transition:none}}
 </style></head><body class="locked">
 <div id="cover">
-  <div class="palace-sky" aria-hidden="true"></div>
+  <div class="palace-sky" aria-hidden="true"></div><div class="cross-city-band" aria-hidden="true"><span></span><span></span></div>
   <div class="palace-portal">
     <div class="palace-light" aria-hidden="true"></div>
     <div class="palace-gate gate-left" aria-hidden="true"></div>
     <div class="palace-gate gate-right" aria-hidden="true"></div>
-    <div class="palace-label" data-t="coverTitle"></div>
+    <div class="palace-label" data-t="coverTitle"></div><div class="palace-cities" data-t="palaceCities"></div>
     <div class="palace-names" data-t="coverNames"></div>
     <button class="seal palace-seal" aria-label="Open wedding invitation">J &amp; K</button>
     <p class="palace-prompt" data-t="palaceOpen"></p>
@@ -165,6 +184,9 @@ for (const [language, entries] of Object.entries(extraFamily)) {
 copy.en.palaceOpen = 'Tap to open the gates';
 copy.hi.palaceOpen = 'द्वार खोलने के लिए स्पर्श करें';
 copy.gu.palaceOpen = 'દ્વાર ખોલવા સ્પર્શ કરો';
+copy.en.palaceCities = 'Ahmedabad · Kolkata';
+copy.hi.palaceCities = 'अहमदाबाद · कोलकाता';
+copy.gu.palaceCities = 'અમદાવાદ · કોલકાતા';
 let lang=localStorage.getItem('wedding-language')||'en';if(!copy[lang])lang='en';
 function countdown(){const left=Math.max(0,new Date('2026-12-26T15:15:00+05:30')-Date.now());const values=[Math.floor(left/86400000),Math.floor(left/3600000)%24,Math.floor(left/60000)%60,Math.floor(left/1000)%60];document.querySelector('.countdown').innerHTML=values.map((n,i)=>`<div><b>${n.toLocaleString(lang==='gu'?'gu-IN':lang==='hi'?'hi-IN':'en-IN',{minimumIntegerDigits:2})}</b><small>${copy[lang].days[i]}</small></div>`).join('')}
 function render(){document.documentElement.lang=lang;renderFamily();document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=copy[lang][e.dataset.t]);document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));document.querySelector('#days').innerHTML=copy[lang].events.map((events,d)=>`<article class="day"><h3>${copy[lang].datesShort[d]}</h3>${events.map((name,i)=>`<div class="event"><time>${copy[lang].times[d][i]}</time><span>${name}</span></div>`).join('')}</article>`).join('');countdown()}
