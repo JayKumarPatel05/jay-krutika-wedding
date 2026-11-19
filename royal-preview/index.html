@@ -216,37 +216,57 @@ main{max-width:none}
 .sunset-courtyard picture,.sunset-courtyard::after{position:absolute;inset:0;pointer-events:none}
 .sunset-courtyard img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 53%;transform:scale(1.025)}
 .sunset-courtyard::after{
-  content:'';background:linear-gradient(180deg,#261610a6 0%,#26161032 28%,transparent 51%,transparent 76%,#261610bd 100%);
+  content:'';background:
+    radial-gradient(ellipse 62% 45% at 50% 17%,#3017108a,transparent 100%),
+    linear-gradient(180deg,#1b0d0ac4 0%,#35170940 37%,transparent 53%,transparent 70%,#210e0bae 100%);
 }
-.courtyard-heading{
-  position:absolute;z-index:1;inset:clamp(82px,15svh,156px) 18px auto;
-  margin:0;text-shadow:0 2px 14px #2c170f;
-  font:400 clamp(54px,10vw,112px)/1.18 'Great Vibes',cursive;
+.courtyard-frame{
+  position:absolute;z-index:1;inset:clamp(10px,2.4vw,34px);pointer-events:none;
+  border:1px solid #eac89273;
+  background:
+    linear-gradient(#fce0a8,#fce0a8) top left/38px 1px,
+    linear-gradient(#fce0a8,#fce0a8) top left/1px 38px,
+    linear-gradient(#fce0a8,#fce0a8) top right/38px 1px,
+    linear-gradient(#fce0a8,#fce0a8) top right/1px 38px,
+    linear-gradient(#fce0a8,#fce0a8) bottom left/38px 1px,
+    linear-gradient(#fce0a8,#fce0a8) bottom left/1px 38px,
+    linear-gradient(#fce0a8,#fce0a8) bottom right/38px 1px,
+    linear-gradient(#fce0a8,#fce0a8) bottom right/1px 38px;
+  background-repeat:no-repeat;
+}
+.courtyard-lockup{
+  position:absolute;z-index:2;inset:clamp(72px,11svh,124px) 22px auto;text-align:center;
+  color:#fff1d2;text-shadow:0 2px 16px #240d08,0 1px 4px #240d08;
   opacity:0;transform:translateY(12px);transition:opacity .85s 2s ease,transform .95s 2s ease;
 }
-html:not([lang=en]) .courtyard-heading{font-family:inherit;font-size:clamp(33px,7.3vw,74px);line-height:1.45}
+.courtyard-kicker{
+  margin:0 0 6px;font:600 clamp(11px,1.6vw,17px)/1.5 'Cormorant Garamond',serif;
+  text-transform:uppercase;letter-spacing:.24em;color:#ffe1a5;
+}
+.courtyard-heading{margin:0;font:400 clamp(52px,8.8vw,122px)/1.13 'Great Vibes',cursive}
+html:not([lang=en]) .courtyard-kicker{font-family:inherit;letter-spacing:.03em}
+html:not([lang=en]) .courtyard-heading{font-family:inherit;font-size:clamp(30px,6vw,75px);line-height:1.5}
+.courtyard-flourish{
+  display:flex;justify-content:center;align-items:center;gap:12px;margin:7px auto 0;color:#ffdfa2;font-size:18px;
+}
+.courtyard-flourish::before,.courtyard-flourish::after{
+  content:'';width:clamp(38px,8vw,100px);height:1px;background:linear-gradient(90deg,transparent,currentColor);
+}
+.courtyard-flourish::after{transform:scaleX(-1)}
 .courtyard-scroll{
-  position:absolute;z-index:1;left:50%;bottom:max(20px,calc(env(safe-area-inset-bottom) + 10px));
-  display:grid;place-items:center;width:52px;height:52px;color:#fff3d9;
+  position:absolute;z-index:2;left:50%;bottom:max(30px,calc(env(safe-area-inset-bottom) + 16px));
+  display:grid;place-items:center;width:46px;height:46px;border-radius:50%;
+  color:#ffe1a5;border:1px solid #ffe1a590;background:#32170dbd;
   opacity:0;transform:translate(-50%,8px);transition:opacity .65s 2.55s ease,transform .65s 2.55s ease;
 }
+.courtyard-scroll:focus-visible{outline:2px solid #fff3d9;outline-offset:4px}
 .courtyard-scroll .down-arrow{
-  position:relative;width:2px;height:29px;background:currentColor;border-radius:2px;
-  filter:drop-shadow(0 2px 4px #32170f);
-}
-.courtyard-scroll .down-arrow::after{
-  content:'';position:absolute;left:50%;bottom:0;width:12px;height:12px;
-  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
-  transform:translateX(-50%) rotate(45deg);
-}
-.courtyard-revealed .down-arrow{animation:down-arrow-bounce 2.9s ease-in-out 3.2s infinite}
-@keyframes down-arrow-bounce{
-  0%,100%{transform:translateY(-3px)}
-  50%{transform:translateY(7px)}
+  width:12px;height:12px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;
+  transform:translateY(-3px) rotate(45deg);
 }
 body.courtyard-revealed main{visibility:visible}
-.courtyard-revealed .sunset-courtyard img{transition:transform 3.3s cubic-bezier(.21,.56,.4,1);transform:scale(1.08)}
-.courtyard-revealed .courtyard-heading{opacity:1;transform:none}
+.courtyard-revealed .sunset-courtyard img{transition:transform 3.3s cubic-bezier(.21,.56,.4,1);transform:scale(1.05)}
+.courtyard-revealed .courtyard-lockup{opacity:1;transform:none}
 .courtyard-revealed .courtyard-scroll{opacity:1;transform:translate(-50%,0)}
 body.at-courtyard header{background:linear-gradient(#24150e8c,transparent);color:#fff3d9;border-color:transparent;backdrop-filter:none}
 body.at-courtyard header nav{background:#251711bd;border-radius:999px}
@@ -276,7 +296,7 @@ body.at-courtyard header nav button[aria-pressed=true]{background:#f4d39e26;colo
   100%{transform:translate(-50%,-52%) scale(5.2);opacity:0}
 }
 @media(prefers-reduced-motion:reduce){
-  #cover.palace-cover::before,.palace-door,.courtyard-revealed .sunset-courtyard img,.courtyard-heading,.courtyard-scroll{transition:none}
+  #cover.palace-cover::before,.palace-door,.courtyard-revealed .sunset-courtyard img,.courtyard-lockup,.courtyard-scroll{transition:none}
   .opening .palace-stage{animation:none;visibility:hidden}
   .courtyard-revealed .sunset-courtyard img{transform:none}
 }
@@ -516,7 +536,12 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
 <main>
 <section class="sunset-courtyard" aria-labelledby="courtyard-title">
   <picture><source media="(max-aspect-ratio: 3/4)" srcset="./sunset-courtyard-portrait.webp"><img src="./sunset-courtyard.webp" alt="" fetchpriority="high"></picture>
-  <h1 class="courtyard-heading" id="courtyard-title" tabindex="-1" data-t="coverNames"></h1>
+  <div class="courtyard-frame" aria-hidden="true"></div>
+  <div class="courtyard-lockup">
+    <p class="courtyard-kicker" data-t="invitationTitle"></p>
+    <h1 class="courtyard-heading" id="courtyard-title" tabindex="-1" data-t="coverNames"></h1>
+    <div class="courtyard-flourish" aria-hidden="true">✦</div>
+  </div>
   <a class="courtyard-scroll" href="#wedding-date-card"><span class="down-arrow" aria-hidden="true"></span><span class="visually-hidden" data-t="courtyardScroll"></span></a>
 </section>
 <div class="invitation-content">
