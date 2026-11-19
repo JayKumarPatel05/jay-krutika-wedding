@@ -280,7 +280,76 @@ body.at-courtyard header nav button[aria-pressed=true]{background:#f4d39e26;colo
 .peacock-languages button:focus-visible{outline:2px solid #fff0d3;outline-offset:2px}
 .opening .peacock-languages{opacity:0;visibility:hidden}
 @media(prefers-reduced-motion:reduce){.peacock-languages{transition:none}}
-</style></head><body class="locked">
+/* The invitation and timeline animate as they enter the viewport. */
+body.scroll-effects .scroll-entry{transition:opacity .8s ease,transform .9s cubic-bezier(.2,.65,.3,1)}
+body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(24px)}
+.scroll-entry:focus-within{opacity:1!important;transform:none!important}
+.rose-fall{position:fixed;inset:0;z-index:21;overflow:hidden;pointer-events:none}
+.rose-petal{
+  position:absolute;top:-36px;left:var(--left);width:var(--size);height:calc(var(--size) * 1.2);
+  border-radius:60% 40% 48% 28% / 50% 58% 42% 50%;
+  background:radial-gradient(ellipse at 29% 24%,var(--petal-light),var(--petal-dark) 84%);
+  box-shadow:inset 0 -1px 2px #540e1d20,0 1px 4px #47142326;opacity:var(--opacity);
+  animation:rose-drift var(--duration) var(--delay) linear infinite;
+}
+.rose-petal:nth-child(odd){--petal-light:#ed8794;--petal-dark:#9f1734}
+.rose-petal:nth-child(even){--petal-light:#fffefb;--petal-dark:#eadacd}
+@keyframes rose-drift{
+  0%{transform:translate3d(0,0,0) rotate(0deg) rotateY(18deg)}
+  33%{transform:translate3d(var(--sway),34vh,0) rotate(84deg) rotateY(56deg)}
+  66%{transform:translate3d(calc(var(--sway) * -.45),68vh,0) rotate(172deg) rotateY(116deg)}
+  100%{transform:translate3d(calc(var(--sway) * .6),calc(100vh + 72px),0) rotate(264deg) rotateY(190deg)}
+}
+.scratch-date{margin:18px auto 26px;max-width:450px}
+.scratch-surface{position:relative;display:grid;place-items:center;min-height:104px;border-radius:12px;overflow:hidden;border:1px solid #b997605c;background:#fff4e5}
+.scratch-surface .auspicious-date{margin:0;padding:21px 15px}
+.scratch-foil{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.scratch-instruction{
+  position:absolute;inset:0;display:grid;place-items:center;margin:0;padding:12px;text-align:center;
+  font:650 14px/1.4 system-ui,sans-serif;color:#432413;pointer-events:none;
+}
+.scratch-instruction[hidden],.scratch-foil[hidden],.scratch-fallback[hidden]{display:none}
+.scratch-fallback{
+  margin-top:8px;padding:5px 10px;border:0;background:none;color:#76563f;
+  font:500 12px system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;
+}
+#celebrations{--road-gold:#ab7553;--road-ink:#652c39;isolation:isolate}
+#celebrations .days{display:block;max-width:660px;margin:0 auto}
+#celebrations .day + .day{margin-top:48px}
+#celebrations .day h3{color:var(--road-ink);margin:24px 0 12px;text-align:center}
+#celebrations .event{
+  position:relative;align-items:center;padding:19px 17px;border:1px solid transparent;border-bottom-color:#ab755348;
+  border-radius:10px;transition:background-color .45s,border-color .45s;
+}
+#celebrations .event.is-current{background:#fff8ec;border-color:#c49871}
+#celebrations .event time{padding:0}
+.event-journey{
+  position:sticky;z-index:2;top:70px;padding:15px 0 13px;margin:10px auto 16px;max-width:660px;
+  background:linear-gradient(#f6dacb 78%,#f6dacb00);pointer-events:none;
+}
+.event-road{position:relative;height:57px;margin:0 14px;border-bottom:1px dashed var(--road-gold)}
+.event-road::before{
+  content:'';position:absolute;left:0;bottom:-1px;height:2px;width:calc(var(--journey,0) * 100%);
+  background:var(--road-ink);border-radius:3px;
+}
+.event-car{
+  position:absolute;left:0;bottom:2px;height:54px;width:min(108px,30%);object-fit:contain;object-position:center bottom;
+}
+.event-lane{
+  position:absolute;inset:0 min(108px,30%) 0 0;
+  transform:translateX(calc(var(--journey,0) * 100%));will-change:transform;
+}
+.event-lane .event-car{width:108px;max-width:43%}
+@media(max-width:650px){
+  .event-journey{top:60px}.event-road{margin:0 5px}.event-lane{right:82px}
+  .event-lane .event-car{width:82px;max-width:none}
+  #celebrations .event{grid-template-columns:92px 1fr;gap:9px;padding:14px 10px}
+}
+@media(prefers-reduced-motion:reduce){
+  .rose-fall,.event-journey{display:none}
+  body.scroll-effects .scroll-entry:not(.in-view){opacity:1;transform:none}
+}
+</style></head><body class="locked"><div class="rose-fall" aria-hidden="true"></div>
 <div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="peacock-open" type="button" aria-label="Open the invitation"></button></div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
 <main>
@@ -299,8 +368,17 @@ body.at-courtyard header nav button[aria-pressed=true]{background:#f4d39e26;colo
 <path d="M65 112c-13 3-21 15-18 27M115 112c13 3 21 15 18 27M61 121c-6 9-5 18 2 23M119 121c6 9 5 18-2 23"/>
 <path d="M49 130c-11-8-23 1-19 13 4 13 25 17 46 12M131 130c11-8 23 1 19 13-4 13-25 17-46 12M42 164q48 7 96 0"/>
 <path d="M37 118v-12q0-5 4-5t4 5v9M35 120c-4-3-6 1-3 6l6 7M136 120q7-7 13 0M138 115l5-9 5 9"/>
-</svg><p class="ganesh-prayer" data-t="ganeshPrayer"></p><p class="invocation" data-t="invocation"></p><h2 id="invitation-title" class="invitation-title" data-t="invitationTitle"></h2><div class="sacred-rule" aria-hidden="true">✧</div><p class="sacred-intro" data-t="sacredIntro"></p><div class="family-block groom-family"><p class="parents" data-t="groomParents"></p><p class="relation" data-t="sonOf"></p></div><h1 class="formal-name" data-t="groomFormal"></h1><p class="wedding-union" data-t="weddingUnion"></p><p class="formal-name bride-name" data-t="brideFormal"></p><p class="hometown" data-t="brideHome"></p><div class="family-block bride-family"><p class="parents" data-t="brideParents"></p><p class="relation" data-t="daughterOf"></p></div><div class="sacred-rule" aria-hidden="true">✧</div><p class="auspicious-date" data-t="auspiciousDate"></p><p class="family-invite" data-t="familyInvite"></p><p class="sacred-closing" data-t="sacredClosing"></p><a class="button celebration-link" href="#celebrations" data-t="discover"></a></article></section><section class="countdown-section"><div class="eyebrow" data-t="countdownTitle"></div><div class="date" data-t="dates"></div><div class="countdown" aria-label="Wedding countdown"></div></section>
-<section class="schedule reveal" id="celebrations"><div class="eyebrow" data-t="together"></div><h2 data-t="celebrations"></h2><div class="ornament" aria-hidden="true">❦</div><div class="days" id="days"></div></section>
+</svg><p class="ganesh-prayer" data-t="ganeshPrayer"></p><p class="invocation" data-t="invocation"></p><h2 id="invitation-title" class="invitation-title" data-t="invitationTitle"></h2><div class="sacred-rule" aria-hidden="true">✧</div><p class="sacred-intro" data-t="sacredIntro"></p><div class="family-block groom-family"><p class="parents" data-t="groomParents"></p><p class="relation" data-t="sonOf"></p></div><h1 class="formal-name" data-t="groomFormal"></h1><p class="wedding-union" data-t="weddingUnion"></p><p class="formal-name bride-name" data-t="brideFormal"></p><p class="hometown" data-t="brideHome"></p><div class="family-block bride-family"><p class="parents" data-t="brideParents"></p><p class="relation" data-t="daughterOf"></p></div><div class="sacred-rule" aria-hidden="true">✧</div><div class="scratch-date">
+  <div class="scratch-surface">
+    <p class="auspicious-date" id="wedding-date" data-t="auspiciousDate" aria-hidden="true" tabindex="-1"></p>
+    <canvas class="scratch-foil" aria-hidden="true"></canvas>
+    <p class="scratch-instruction" data-t="scratchDate" aria-hidden="true"></p>
+  </div>
+  <button type="button" class="scratch-fallback" aria-controls="wedding-date" data-t="revealDate"></button>
+</div><p class="family-invite" data-t="familyInvite"></p><p class="sacred-closing" data-t="sacredClosing"></p><a class="button celebration-link" href="#celebrations" data-t="discover"></a></article></section><section class="countdown-section"><div class="eyebrow" data-t="countdownTitle"></div><div class="countdown" aria-label="Wedding countdown"></div></section>
+<section class="schedule reveal" id="celebrations"><div class="eyebrow" data-t="together"></div><h2 data-t="celebrations"></h2><div class="ornament" aria-hidden="true">❦</div><div class="event-journey" aria-hidden="true">
+  <div class="event-road"><div class="event-lane"><img class="event-car" src="./wedding-car.webp" alt="" decoding="async"></div></div>
+</div><div class="days" id="days"></div></section>
 <section class="venue reveal"><svg class="temple" viewBox="0 0 180 120" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 110h160M20 103h140M30 95h120V65H30v30M23 65h134L90 50 23 65ZM65 50V35h50v15M70 35 90 10l20 25M90 10V0l15 4-15 4M77 95V72q13-16 26 0v23M40 76h15v19M125 95V76h15M38 66v-8M142 66v-8"/></svg><div class="eyebrow" data-t="venueLabel"></div><h2 data-t="venue"></h2><p data-t="address"></p><div class="line"></div><a class="button" href="https://share.google/Y071H4zzC0nV3YYYM" target="_blank" rel="noopener"><svg class="directions-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-t="directions"></span></a></section><section class="family-section reveal" aria-labelledby="family-title"><div class="ornament" aria-hidden="true">❦</div><h2 id="family-title" data-t="familyTitle"></h2><p class="family-intro" data-t="familyIntro"></p><div class="family-couples"><table><tbody id="family-couples"></tbody></table></div><div class="family-children"><ul class="ordered-family-list" id="family-young"></ul></div><div class="family-group"><h3 class="eyebrow" data-t="extraFamily0"></h3><ul><li data-t="extraFamily1"></li><li data-t="extraFamily2"></li><li data-t="extraFamily3"></li></ul></div><div class="family-group"><h3 class="eyebrow" data-t="extraFamily4"></h3><ul><li data-t="extraFamily5"></li></ul></div><div class="family-greeting"><svg class="prayer-hands" viewBox="0 0 180 184" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <path d="M90 22c-1-10-10-12-14-3L61 66c-3 10-9 17-15 26-7 11-6 24-13 37l-13 22 32 19 22-36c10-12 16-23 16-39V22Z"/>
 <path d="M90 22c1-10 10-12 14-3l15 47c3 10 9 17 15 26 7 11 6 24 13 37l13 22-32 19-22-36c-10-12-16-23-16-39V22Z"/>
@@ -330,6 +408,9 @@ copy.gu.palaceOpen = 'આમંત્રણ ખોલો';
 copy.en.courtyardScroll = 'Scroll to the invitation';
 copy.hi.courtyardScroll = 'निमंत्रण के लिए नीचे जाएँ';
 copy.gu.courtyardScroll = 'આમંત્રણ માટે નીચે જાઓ';
+Object.assign(copy.en,{scratchDate:'Scratch to reveal the wedding date',revealDate:'Reveal wedding date'});
+Object.assign(copy.hi,{scratchDate:'शादी की तारीख जानने के लिए खुरचें',revealDate:'शादी की तारीख देखें'});
+Object.assign(copy.gu,{scratchDate:'લગ્નની તારીખ જાણવા ખોતરો',revealDate:'લગ્નની તારીખ જુઓ'});
 copy.en.palaceCities = 'Ahmedabad · Kolkata';
 copy.hi.palaceCities = 'अहमदाबाद · कोलकाता';
 copy.gu.palaceCities = 'અમદાવાદ · કોલકાતા';
@@ -388,6 +469,162 @@ coverOpen.onclick=()=>{
  doorStage.addEventListener('animationend',onDoorArrival);
  setTimeout(finishReveal,2950);
 };
-const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+const entryObserver = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    entry.target.classList.add('visible', 'in-view');
+    entryObserver.unobserve(entry.target);
+  }
+}, {threshold: .08});
+document.body.classList.add('scroll-effects');
+document.querySelectorAll('.invitation-card, .countdown-section, .schedule, .venue, .family-section, footer').forEach(section => {
+  section.classList.add('scroll-entry');
+  entryObserver.observe(section);
+});
+document.querySelectorAll('.reveal').forEach(section => entryObserver.observe(section));
+
+const petalLayer = document.querySelector('.rose-fall');
+if (!motionPreference.matches) {
+  for (let i = 0; i < 19; i++) {
+    const petal = document.createElement('span');
+    petal.className = 'rose-petal';
+    petal.style.cssText = [
+      '--left:' + ((i * 37 + 4) % 98) + '%',
+      '--size:' + (6 + (i * 7) % 10) + 'px',
+      '--sway:' + (i % 2 ? 1 : -1) * (18 + (i * 13) % 54) + 'px',
+      '--opacity:' + (.46 + (i % 5) * .07),
+      '--duration:' + (19 + (i * 11) % 15) + 's',
+      '--delay:' + -(2 + (i * 13) % 24) + 's'
+    ].join(';');
+    petalLayer.append(petal);
+  }
+}
+
+const scratch = document.querySelector('.scratch-date');
+const foil = scratch.querySelector('canvas');
+const instruction = scratch.querySelector('.scratch-instruction');
+const revealButton = scratch.querySelector('button');
+const weddingDate = scratch.querySelector('#wedding-date');
+const brush = foil.getContext('2d', {willReadFrequently:true});
+let scratchPointer = null;
+let lastPoint = null;
+let foilPainted = false;
+
+function revealWeddingDate(moveFocus = false) {
+  foil.hidden = true;
+  instruction.hidden = true;
+  revealButton.hidden = true;
+  weddingDate.removeAttribute('aria-hidden');
+  if (moveFocus) weddingDate.focus({preventScroll:true});
+}
+function paintFoil() {
+  if (foil.hidden) return;
+  const width = foil.clientWidth;
+  const height = foil.clientHeight;
+  if (!width || !height || (foilPainted && foil.width === width && foil.height === height)) return;
+  const previous = foilPainted ? document.createElement('canvas') : null;
+  if (previous) {
+    previous.width = foil.width;
+    previous.height = foil.height;
+    previous.getContext('2d').drawImage(foil, 0, 0);
+  }
+  foilPainted = true;
+  foil.width = width;
+  foil.height = height;
+  if (previous) {
+    brush.drawImage(previous, 0, 0, width, height);
+    return;
+  }
+  const gold = brush.createLinearGradient(0, 0, width, height);
+  gold.addColorStop(0, '#b78353');
+  gold.addColorStop(.45, '#f3d9a2');
+  gold.addColorStop(1, '#b88858');
+  brush.fillStyle = gold;
+  brush.fillRect(0, 0, width, height);
+  brush.fillStyle = '#fff7d972';
+  for (let y = 4; y < height; y += 7) {
+    for (let x = 5 + (y % 11); x < width; x += 11) brush.fillRect(x, y, 1, 1);
+  }
+}
+function scratchAt(event) {
+  const rect = foil.getBoundingClientRect();
+  const point = [event.clientX - rect.left, event.clientY - rect.top];
+  brush.globalCompositeOperation = 'destination-out';
+  brush.lineWidth = 36;
+  brush.lineCap = 'round';
+  brush.beginPath();
+  if (lastPoint) {
+    brush.moveTo(...lastPoint);
+    brush.lineTo(...point);
+    brush.stroke();
+  } else {
+    brush.arc(...point, 18, 0, Math.PI * 2);
+    brush.fill();
+  }
+  lastPoint = point;
+  brush.globalCompositeOperation = 'source-over';
+}
+function endScratch(event) {
+  if (event.pointerId !== scratchPointer) return;
+  scratchPointer = null;
+  lastPoint = null;
+  const pixels = brush.getImageData(0, 0, foil.width, foil.height).data;
+  let cleared = 0;
+  for (let i = 3; i < pixels.length; i += 40) if (pixels[i] === 0) cleared++;
+  if (cleared / Math.ceil(pixels.length / 40) >= .32) revealWeddingDate();
+}
+revealButton.onclick = () => revealWeddingDate(true);
+if (brush) {
+  new ResizeObserver(paintFoil).observe(foil);
+  paintFoil();
+  foil.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || scratchPointer !== null) return;
+    scratchPointer = event.pointerId;
+    foil.setPointerCapture(scratchPointer);
+    instruction.hidden = true;
+    scratchAt(event);
+  });
+  foil.addEventListener('pointermove', event => {
+    if (event.pointerId === scratchPointer) scratchAt(event);
+  });
+  foil.addEventListener('lostpointercapture', endScratch);
+} else {
+  revealWeddingDate();
+}
+
+const schedule = document.querySelector('#celebrations');
+const dayList = schedule.querySelector('.days');
+const road = schedule.querySelector('.event-road');
+let journeyFrame = 0;
+
+function updateJourney() {
+  journeyFrame = 0;
+  if (motionPreference.matches) return;
+  const viewport = window.innerHeight;
+  const bounds = dayList.getBoundingClientRect();
+  const readingLine = viewport * .53;
+  if (bounds.bottom < -viewport || bounds.top > 2 * viewport) return;
+  const rows = Array.from(dayList.querySelectorAll('.event'));
+  const centers = rows.map(row => {
+    const rect = row.getBoundingClientRect();
+    return rect.top + rect.height / 2;
+  });
+  if (centers.length < 2) return;
+  const progress = Math.max(0, Math.min(1,
+    (readingLine - centers[0]) / (centers.at(-1) - centers[0])));
+  road.style.setProperty('--journey', progress);
+  const current = centers.reduce((nearest, position, index) =>
+    Math.abs(readingLine - position) < Math.abs(readingLine - centers[nearest]) ? index : nearest, 0);
+  rows.forEach((row, index) => row.classList.toggle('is-current', index === current));
+}
+function queueJourney() {
+  if (!journeyFrame) journeyFrame = requestAnimationFrame(updateJourney);
+}
+window.addEventListener('scroll', queueJourney, {passive:true});
+window.addEventListener('resize', queueJourney);
+new ResizeObserver(queueJourney).observe(dayList);
+new MutationObserver(queueJourney).observe(dayList, {childList:true});
+queueJourney();
 
 </script></body></html>
