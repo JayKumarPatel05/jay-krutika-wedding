@@ -213,14 +213,24 @@ main{max-width:none}
 }
 html:not([lang=en]) .courtyard-heading{font-family:inherit;font-size:clamp(33px,7.3vw,74px);line-height:1.45}
 .courtyard-scroll{
-  position:absolute;z-index:1;left:50%;bottom:max(24px,calc(env(safe-area-inset-bottom) + 12px));
-  display:grid;justify-items:center;gap:9px;padding:10px 17px;border:1px solid #fff3d955;border-radius:40px;
-  background:#22140e9c;color:inherit;text-decoration:none;white-space:nowrap;
-  font:500 13px/1.25 system-ui,sans-serif;opacity:0;transform:translate(-50%,8px);
-  transition:opacity .65s 2.55s ease,transform .65s 2.55s ease,background-color .2s ease;
+  position:absolute;z-index:1;left:50%;bottom:max(20px,calc(env(safe-area-inset-bottom) + 10px));
+  display:grid;place-items:center;width:52px;height:52px;color:#fff3d9;
+  opacity:0;transform:translate(-50%,8px);transition:opacity .65s 2.55s ease,transform .65s 2.55s ease;
 }
-.courtyard-scroll:hover{background:#22140eda}
-.courtyard-scroll::after{content:'';width:7px;height:7px;border-right:1px solid;border-bottom:1px solid;transform:rotate(45deg)}
+.courtyard-scroll .down-arrow{
+  position:relative;width:2px;height:29px;background:currentColor;border-radius:2px;
+  filter:drop-shadow(0 2px 4px #32170f);
+}
+.courtyard-scroll .down-arrow::after{
+  content:'';position:absolute;left:50%;bottom:0;width:12px;height:12px;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:translateX(-50%) rotate(45deg);
+}
+.courtyard-revealed .down-arrow{animation:down-arrow-bounce 2.9s ease-in-out 3.2s infinite}
+@keyframes down-arrow-bounce{
+  0%,100%{transform:translateY(-3px)}
+  50%{transform:translateY(7px)}
+}
 body.courtyard-revealed main{visibility:visible}
 .courtyard-revealed .sunset-courtyard img{transition:transform 3.3s cubic-bezier(.21,.56,.4,1);transform:scale(1.08)}
 .courtyard-revealed .courtyard-heading{opacity:1;transform:none}
@@ -301,11 +311,19 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
   100%{transform:translate3d(calc(var(--sway) * .6),calc(100vh + 72px),0) rotate(264deg) rotateY(190deg)}
 }
 .scratch-date{margin:18px auto 26px;max-width:450px}
-.scratch-surface{position:relative;display:grid;place-items:center;min-height:104px;border-radius:12px;overflow:hidden;border:1px solid #b997605c;background:#fff4e5}
-.scratch-surface .auspicious-date{margin:0;padding:21px 15px}
+.scratch-surface{
+  position:relative;display:grid;justify-items:center;align-items:start;width:min(100%,340px);
+  aspect-ratio:1.08;margin:auto;background:radial-gradient(at 50% 36%,#fff7e6,#efc7aa 72%);
+  clip-path:polygon(50% 22%,47.6% 17.9%,44.9% 14.4%,42.1% 11.4%,39.2% 8.9%,36.1% 7%,32.9% 5.6%,29.6% 4.8%,26.3% 4.6%,23% 5%,18.8% 6%,15% 7.6%,11.5% 9.9%,8.5% 12.6%,5.9% 16%,3.8% 19.8%,2.3% 24.1%,1.3% 28.9%,1% 34%,1.8% 40.9%,4% 47.8%,7.5% 54.5%,12.2% 61.3%,18% 68%,24.9% 74.8%,32.5% 81.7%,40.9% 88.8%,50% 96%,59.1% 88.8%,67.5% 81.7%,75.1% 74.8%,82% 68%,87.8% 61.3%,92.5% 54.5%,96% 47.8%,98.2% 40.9%,99% 34%,98.7% 28.9%,97.7% 24.1%,96.2% 19.8%,94.1% 16%,91.5% 12.6%,88.5% 9.9%,85% 7.6%,81.2% 6%,77% 5%,73.7% 4.6%,70.4% 4.8%,67.1% 5.6%,63.9% 7%,60.8% 8.9%,57.9% 11.4%,55.1% 14.4%,52.4% 17.9%,50% 22%);
+}
+.scratch-surface .auspicious-date{
+  max-width:75%;margin:0;padding:0;position:absolute;top:41%;text-align:center;
+  font-size:clamp(22px,5vw,33px);font-weight:600;line-height:1.2;
+}
+.scratch-confirmation{max-width:36ch;margin:12px auto 0;color:#73523e;font-size:16px}
 .scratch-foil{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
 .scratch-instruction{
-  position:absolute;inset:0;display:grid;place-items:center;margin:0;padding:12px;text-align:center;
+  position:absolute;inset:0;display:grid;place-items:start center;margin:0;padding:41% 9% 0;text-align:center;
   font:650 14px/1.4 system-ui,sans-serif;color:#432413;pointer-events:none;
 }
 .scratch-instruction[hidden],.scratch-foil[hidden],.scratch-fallback[hidden]{display:none}
@@ -314,11 +332,9 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
   font:500 12px system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;
 }
 /* Hand-painted shutters and the scroll-led procession. */
-.royal-date,.royal-portraits{background:#f9efe0;padding:65px 24px}
-.royal-date{padding-bottom:32px}
-.royal-date h2,.royal-portraits h2{color:#672f38}
-.royal-date .eyebrow,.royal-portraits .eyebrow{letter-spacing:.14em}
-.royal-gate,.portrait-shutter{
+.royal-portraits{background:#f9efe0;padding:65px 24px}
+.royal-portraits h2{color:#672f38}
+.portrait-shutter{
   display:block;position:relative;margin:auto;padding:0;background:none;border:0;
   width:min(100%,390px);color:inherit;text-align:center;
 }
@@ -344,7 +360,6 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
   position:relative;z-index:2;display:block;margin:10px auto 0;
   font:600 13px/1.45 system-ui,sans-serif;color:#783c42;
 }
-.gate-date{color:#fff0cc;font-size:clamp(21px,5vw,34px);padding:18px 15px}
 .royal-portraits .portrait-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,5vw,45px);max-width:600px;margin:0 auto}
 .portrait-shutter .shutter-frame{aspect-ratio:3/4;min-height:0;border-radius:48% 48% 7px 7px / 28% 28% 7px 7px}
 .portrait-art{position:absolute;inset:0;background:url("./wedding-portraits.webp") no-repeat;background-size:200% 100%;background-position:left center}
@@ -414,7 +429,7 @@ body.scroll-effects .event-banner:not(.is-unrolled){opacity:.25;transform:scaleY
   .procession-track{width:30px}.procession-car{height:56px}
   .event-banner{min-height:125px;padding:15px 5px}
   .event-stamp{padding:0 6px;line-height:1.3}
-  .royal-date,.royal-portraits{padding-inline:18px}
+  .royal-portraits{padding-inline:18px}
 }
 @media(prefers-reduced-motion:reduce){
   .rose-fall,.procession-car{display:none}
@@ -428,15 +443,20 @@ body.scroll-effects .event-banner:not(.is-unrolled){opacity:.25;transform:scaleY
 <section class="sunset-courtyard" aria-labelledby="courtyard-title">
   <picture><source media="(max-aspect-ratio: 3/4)" srcset="./sunset-courtyard-portrait.webp"><img src="./sunset-courtyard.webp" alt="" fetchpriority="high"></picture>
   <h1 class="courtyard-heading" id="courtyard-title" tabindex="-1" data-t="coverNames"></h1>
-  <a class="courtyard-scroll" href="#wedding-date-gate" data-t="courtyardScroll"></a>
+  <a class="courtyard-scroll" href="#wedding-date-card"><span class="down-arrow" aria-hidden="true"></span><span class="visually-hidden" data-t="courtyardScroll"></span></a>
 </section>
 <div class="invitation-content">
-<section class="royal-date" id="wedding-date-gate" tabindex="-1" aria-labelledby="royal-date-title">
-  <h2 id="royal-date-title" data-t="weddingDateTitle"></h2>
-  <button type="button" class="royal-gate shutter-control" aria-expanded="false" aria-controls="gate-date">
-    <span class="shutter-frame"><span class="gate-date" id="gate-date" data-t="weddingDateShort" aria-hidden="true"></span></span>
-    <span class="shutter-copy" data-t="openDateGate"></span>
-  </button>
+<section class="scratch-section" id="wedding-date-card" tabindex="-1" aria-labelledby="save-the-date-title">
+  <h2 id="save-the-date-title" data-t="saveTheDate"></h2>
+  <div class="scratch-date">
+  <div class="scratch-surface">
+    <time class="auspicious-date" id="wedding-date" datetime="2026-12-26" data-t="weddingDateShort" aria-hidden="true" tabindex="-1"></time>
+    <canvas class="scratch-foil" aria-hidden="true"></canvas>
+    <p class="scratch-instruction" data-t="scratchDate" aria-hidden="true"></p>
+  </div>
+  <button type="button" class="scratch-fallback" aria-controls="wedding-date" data-t="revealDate"></button>
+  <p class="scratch-confirmation" data-t="auspiciousDate" hidden></p>
+</div>
 </section><section id="invitation-page" class="hero sacred-page" aria-labelledby="invitation-title" tabindex="-1"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <circle cx="90" cy="83" r="66" stroke-width=".65" opacity=".2"/>
 <path d="M68 43 74 30l10 7 6-19 6 19 10-7 6 13M67 48q23-9 46 0M72 53q18-6 36 0"/>
@@ -448,17 +468,7 @@ body.scroll-effects .event-banner:not(.is-unrolled){opacity:.25;transform:scaleY
 <path d="M49 130c-11-8-23 1-19 13 4 13 25 17 46 12M131 130c11-8 23 1 19 13-4 13-25 17-46 12M42 164q48 7 96 0"/>
 <path d="M37 118v-12q0-5 4-5t4 5v9M35 120c-4-3-6 1-3 6l6 7M136 120q7-7 13 0M138 115l5-9 5 9"/>
 </svg><p class="ganesh-prayer" data-t="ganeshPrayer"></p><p class="invocation" data-t="invocation"></p><h2 id="invitation-title" class="invitation-title" data-t="invitationTitle"></h2><div class="sacred-rule" aria-hidden="true">✧</div><p class="sacred-intro" data-t="sacredIntro"></p><div class="family-block groom-family"><p class="parents" data-t="groomParents"></p><p class="relation" data-t="sonOf"></p></div><h1 class="formal-name" data-t="groomFormal"></h1><p class="wedding-union" data-t="weddingUnion"></p><p class="formal-name bride-name" data-t="brideFormal"></p><p class="hometown" data-t="brideHome"></p><div class="family-block bride-family"><p class="parents" data-t="brideParents"></p><p class="relation" data-t="daughterOf"></p></div><div class="sacred-rule" aria-hidden="true">✧</div><p class="family-invite" data-t="familyInvite"></p><p class="sacred-closing" data-t="sacredClosing"></p><a class="button celebration-link" href="#celebrations" data-t="discover"></a></article></section><section class="countdown-section"><div class="eyebrow" data-t="countdownTitle"></div><div class="countdown" aria-label="Wedding countdown"></div></section>
-<section class="scratch-section" aria-labelledby="save-the-date-title">
-  <h2 id="save-the-date-title" data-t="saveTheDate"></h2>
-  <div class="scratch-date">
-  <div class="scratch-surface">
-    <p class="auspicious-date" id="wedding-date" data-t="auspiciousDate" aria-hidden="true" tabindex="-1"></p>
-    <canvas class="scratch-foil" aria-hidden="true"></canvas>
-    <p class="scratch-instruction" data-t="scratchDate" aria-hidden="true"></p>
-  </div>
-  <button type="button" class="scratch-fallback" aria-controls="wedding-date" data-t="revealDate"></button>
-</div>
-</section>
+
 <section class="royal-portraits" aria-labelledby="portrait-title">
   <h2 id="portrait-title" data-t="portraitTitle"></h2>
   <div class="portrait-pair">
@@ -516,9 +526,9 @@ Object.assign(copy.en,{scratchDate:'Scratch to reveal the wedding date',revealDa
 Object.assign(copy.hi,{scratchDate:'शादी की तारीख जानने के लिए खुरचें',revealDate:'शादी की तारीख देखें'});
 Object.assign(copy.gu,{scratchDate:'લગ્નની તારીખ જાણવા ખોતરો',revealDate:'લગ્નની તારીખ જુઓ'});
 const revealCopy = {
- en:{weddingDateTitle:'The Wedding Date',openDateGate:'Open the date gate',closeDateGate:'Close the date gate',saveTheDate:'Save the Date',portraitTitle:'The Couple',groomLabel:'The Groom',brideLabel:'The Bride'},
- hi:{weddingDateTitle:'विवाह की तिथि',openDateGate:'तिथि देखने के लिए द्वार खोलें',closeDateGate:'द्वार बंद करें',saveTheDate:'यह तारीख याद रखें',portraitTitle:'वर और वधू',groomLabel:'वर',brideLabel:'वधू'},
- gu:{weddingDateTitle:'લગ્નની તારીખ',openDateGate:'તારીખ જોવા દ્વાર ખોલો',closeDateGate:'દ્વાર બંધ કરો',saveTheDate:'તારીખ યાદ રાખજો',portraitTitle:'વર અને વધૂ',groomLabel:'વર',brideLabel:'વધૂ'}
+ en:{saveTheDate:'Save the Date',portraitTitle:'The Couple',groomLabel:'The Groom',brideLabel:'The Bride'},
+ hi:{saveTheDate:'यह तारीख याद रखें',portraitTitle:'वर और वधू',groomLabel:'वर',brideLabel:'वधू'},
+ gu:{saveTheDate:'તારીખ યાદ રાખજો',portraitTitle:'વર અને વધૂ',groomLabel:'વર',brideLabel:'વધૂ'}
 };
 for (const [language, labels] of Object.entries(revealCopy)) {
  Object.assign(copy[language], labels, {weddingDateShort:copy[language].datesShort[1]});
@@ -627,13 +637,6 @@ document.querySelectorAll('.reveal').forEach(section => entryObserver.observe(se
 
 function setShutter(button, open) {
  button.setAttribute('aria-expanded', String(open));
- const content = document.getElementById(button.getAttribute('aria-controls'));
- if (content.classList.contains('gate-date')) {
-   content.setAttribute('aria-hidden', String(!open));
-   const caption = button.querySelector('.shutter-copy');
-   caption.dataset.t = open ? 'closeDateGate' : 'openDateGate';
-   caption.textContent = copy[lang][caption.dataset.t];
- }
 }
 const shutterObserver = new IntersectionObserver((entries, observer) => {
  for (const entry of entries) {
@@ -681,6 +684,7 @@ function revealWeddingDate(moveFocus = false) {
   instruction.hidden = true;
   revealButton.hidden = true;
   weddingDate.removeAttribute('aria-hidden');
+  scratch.querySelector('.scratch-confirmation').hidden = false;
   if (moveFocus) weddingDate.focus({preventScroll:true});
 }
 function paintFoil() {
@@ -737,7 +741,7 @@ function endScratch(event) {
   const pixels = brush.getImageData(0, 0, foil.width, foil.height).data;
   let cleared = 0;
   for (let i = 3; i < pixels.length; i += 40) if (pixels[i] === 0) cleared++;
-  if (cleared / Math.ceil(pixels.length / 40) >= .32) revealWeddingDate();
+  if (cleared / Math.ceil(pixels.length / 40) >= .24) revealWeddingDate();
 }
 revealButton.onclick = () => revealWeddingDate(true);
 if (brush) {
