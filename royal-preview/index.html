@@ -485,7 +485,15 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
   .rose-fall,.procession-car{display:none}
   body.scroll-effects .scroll-entry:not(.in-view){opacity:1;transform:none}
 }
+.music-toggle{
+  position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
+  z-index:15;width:48px;height:48px;border:1px solid #d2ad66;border-radius:50%;
+  background:#642338;color:#fff0cb;font-size:23px;cursor:pointer;box-shadow:0 3px 12px #32142655;
+}
+.music-toggle[aria-pressed="false"]{background:#f7e7c8;color:#642338}
 </style></head><body class="locked"><div class="rose-fall" aria-hidden="true"></div>
+<audio id="invite-music" src="tenu-leke.mp3" preload="none" loop></audio>
+<button class="music-toggle" type="button" aria-pressed="false" aria-label="Background music" hidden>♪</button>
 <div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><div class="door-transition-light" aria-hidden="true"></div><button class="peacock-open" type="button" aria-label="Open the invitation"></button></div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
 <main>
@@ -660,17 +668,30 @@ const resetToTop=()=>window.scrollTo({top:0,left:0,behavior:'instant'});
 resetToTop();
 window.addEventListener('pageshow',()=>{if(document.body.classList.contains('locked'))resetToTop()});
 window.addEventListener('load',()=>{if(document.body.classList.contains('locked'))resetToTop()},{once:true});
+const music=document.querySelector('#invite-music');
+const musicToggle=document.querySelector('.music-toggle');
+function playInviteMusic(){
+ music.play().catch(()=>musicToggle.setAttribute('aria-pressed','false'));
+}
+music.addEventListener('play',()=>musicToggle.setAttribute('aria-pressed','true'));
+music.addEventListener('pause',()=>musicToggle.setAttribute('aria-pressed','false'));
+musicToggle.onclick=()=>{
+ if(music.paused)playInviteMusic();
+ else music.pause();
+};
 let openingStarted=false;
 coverOpen.onclick=()=>{
  if(openingStarted)return;
  openingStarted=true;
  coverOpen.disabled=true;
+ playInviteMusic();
  resetToTop();
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const finishReveal=()=> {
   if(cover.hidden)return;
   doorStage.removeEventListener('animationend',onDoorArrival);
   cover.hidden=true;
+  musicToggle.hidden=false;
   pageMain.inert=false;
   document.querySelector('header').inert=false;
   document.body.classList.remove('locked');
