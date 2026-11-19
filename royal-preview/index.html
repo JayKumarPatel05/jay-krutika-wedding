@@ -401,8 +401,8 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
 .event-banner::before{top:-5px}
 .event-banner::after{top:calc(100% - 3px);transition:top .72s cubic-bezier(.22,.68,.28,1)}
 @media(prefers-reduced-motion:no-preference){
-  .scroll-effects .procession-row:not(.is-current) .event-scroll-paper{clip-path:inset(0 0 calc(100% - 9px) 0)}
-  .scroll-effects .procession-row:not(.is-current) .event-banner::after{top:6px}
+  .scroll-effects .procession-row:not(.is-unrolled) .event-scroll-paper{clip-path:inset(0 0 calc(100% - 9px) 0)}
+  .scroll-effects .procession-row:not(.is-unrolled) .event-banner::after{top:6px}
 }
 .event-banner h4{font-size:clamp(17px,3vw,28px);line-height:1.22;font-weight:500;margin:0}
 .event-banner time{font-size:clamp(13px,2vw,17px);color:#f3d7a4}
@@ -539,14 +539,16 @@ copy.hi.palaceCities = 'अहमदाबाद · कोलकाता';
 copy.gu.palaceCities = 'અમદાવાદ · કોલકાતા';
 let lang=localStorage.getItem('wedding-language')||'en';if(!copy[lang])lang='en';
 function countdown(){const left=Math.max(0,new Date('2026-12-26T15:15:00+05:30')-Date.now());const values=[Math.floor(left/86400000),Math.floor(left/3600000)%24,Math.floor(left/60000)%60,Math.floor(left/1000)%60];document.querySelector('.countdown').innerHTML=values.map((n,i)=>`<div><b>${n.toLocaleString(lang==='gu'?'gu-IN':lang==='hi'?'hi-IN':'en-IN',{minimumIntegerDigits:2})}</b><small>${copy[lang].days[i]}</small></div>`).join('')}
+const unrolledEvents = new Set();
 function renderEvents() {
  const details = copy[lang];
  let eventIndex = 0;
  document.querySelector('#days').innerHTML = details.events.map((events, day) => {
    const date = details.datesShort[day];
    const rows = events.map((name, index) => {
-     const alignment = eventIndex++ % 2 ? ' is-reversed' : '';
-     return `<article class="procession-row${alignment}">
+     const alignment = eventIndex % 2 ? ' is-reversed' : '';
+     const unrolled = unrolledEvents.has(eventIndex++) ? ' is-unrolled' : '';
+     return `<article class="procession-row${alignment}${unrolled}">
        <div class="event-banner">
          <div class="event-scroll-paper">
            <span class="banner-ornament" aria-hidden="true">❦</span>
@@ -783,7 +785,13 @@ function updateProcession() {
      }
    }
  }
- for (const row of rows) row.classList.toggle('is-current', row === current);
+ rows.forEach((row, index) => {
+   row.classList.toggle('is-current', row === current);
+   if (row === current) {
+     unrolledEvents.add(index);
+     row.classList.add('is-unrolled');
+   }
+ });
 }
 function queueProcession() {
  if (!processionFrame) processionFrame = requestAnimationFrame(updateProcession);
