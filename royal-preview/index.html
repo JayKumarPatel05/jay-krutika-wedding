@@ -187,7 +187,7 @@ html:not([lang=en]) .courtyard-names{font:inherit;font-size:clamp(35px,8vw,90px)
 #cover.palace-cover{display:grid;place-items:center;background:#25190f;overflow:hidden;isolation:isolate;transition:opacity .7s 1.9s,visibility 0s 2.6s}
 .palace-stage{
   --mural:url("palace-door.webp");position:absolute;left:50%;top:50%;
-  width:max(100vw,74.583334dvh);aspect-ratio:895/1200;
+  width:min(100vw,74.583334dvh);aspect-ratio:895/1200;
   transform:translate(-50%,-50%);perspective:1100px;
   box-shadow:0 0 50px #0c0504a6;
 }
@@ -195,6 +195,12 @@ html:not([lang=en]) .courtyard-names{font:inherit;font-size:clamp(35px,8vw,90px)
 .palace-mural{clip-path:polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,50% 28.1%,44% 30.3%,38% 33.2%,33.3% 37.3%,29.7% 41.5%,27.7% 45.8%,26.9% 50.2%,26.5% 94.6%,73% 94.6%,72.7% 50.2%,71.8% 45.8%,69.7% 41.5%,66.3% 37.3%,61.8% 33.2%,55.9% 30.3%,50% 28.1%,0 0)}
 .door-west{clip-path:polygon(50% 28.1%,44% 30.3%,38% 33.2%,33.3% 37.3%,29.7% 41.5%,27.7% 45.8%,26.9% 50.2%,26.5% 94.6%,50.15% 94.6%,50.15% 28.1%);transform-origin:26.5% 80%}
 .door-east{clip-path:polygon(49.85% 28.1%,49.85% 94.6%,73% 94.6%,72.7% 50.2%,71.8% 45.8%,69.7% 41.5%,66.3% 37.3%,61.8% 33.2%,55.9% 30.3%,50% 28.1%);transform-origin:73% 80%}
+@media (orientation:landscape){
+  .palace-stage{--mural:url("palace-door-landscape.webp");width:177.683316dvh;aspect-ratio:1672/941}
+  .palace-mural{clip-path:polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,50% 29.1%,47.2% 31.5%,44.9% 34.1%,43.2% 37.2%,42% 40.6%,41.45% 44.5%,41.25% 87.9%,58.75% 87.9%,58.55% 44.5%,58% 40.6%,56.8% 37.2%,55.1% 34.1%,52.8% 31.5%,50% 29.1%,0 0)}
+  .door-west{clip-path:polygon(50% 29.1%,47.2% 31.5%,44.9% 34.1%,43.2% 37.2%,42% 40.6%,41.45% 44.5%,41.25% 87.9%,50.1% 87.9%,50.1% 29.1%);transform-origin:41.25% 80%}
+  .door-east{clip-path:polygon(49.9% 29.1%,49.9% 87.9%,58.75% 87.9%,58.55% 44.5%,58% 40.6%,56.8% 37.2%,55.1% 34.1%,52.8% 31.5%,50% 29.1%);transform-origin:58.75% 80%}
+}
 .palace-door{transition:transform 1.75s cubic-bezier(.42,0,.23,1),opacity .6s 1.05s;will-change:transform,opacity}
 .opening .door-west{transform:rotateY(-91deg);opacity:0}
 .opening .door-east{transform:rotateY(91deg);opacity:0}
@@ -252,6 +258,12 @@ body.at-courtyard header nav button[aria-pressed=true]{background:#f4d39e26;colo
 #cover.palace-cover::before{
   content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,#89613e,#261a14 76%);
   transition:opacity .55s .18s ease;pointer-events:none;
+}
+@media (orientation:landscape){
+  #cover.palace-cover::before{
+    inset:-24px;background:linear-gradient(#28170e44,#28170e44),url("palace-door-landscape.webp") center/cover;
+    filter:blur(18px);
+  }
 }
 #cover.palace-cover.opening::before{opacity:0}
 .palace-stage{z-index:1;transform-origin:50% 70%}
