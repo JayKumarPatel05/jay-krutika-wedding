@@ -195,7 +195,20 @@ html:not([lang=en]) .courtyard-names{font:inherit;font-size:clamp(35px,8vw,90px)
 #cover .peacock-open{position:absolute;top:auto;left:50%;bottom:clamp(26px,7svh,80px);z-index:2;transform:translateX(-50%);width:auto;height:auto;padding:12px 20px;background:#2d1b15e8;border:1px solid #eac184;border-radius:4px;color:#fff0d3;font:inherit;font-size:18px;box-shadow:0 4px 24px #0009;white-space:nowrap}
 #cover.opening .peacock-open{animation:none;opacity:0;transform:translateX(-50%);transition:opacity .2s}
 @media(prefers-reduced-motion:reduce){.peacock-door{transition:none}}
-#cover.peacock-cover[hidden]{display:none}</style></head><body class="locked">
+#cover.peacock-cover[hidden]{display:none}
+/* Start uncovering the invitation while the doors are still moving. */
+#cover.peacock-cover{transition:opacity 1.12s 1.34s ease-in-out,visibility 0s 2.46s}
+.peacock-stage{transform-origin:50% 72%;transition:transform 2.46s cubic-bezier(.23,.55,.31,1)}
+.opening .peacock-stage{transform:translateX(-50%) scale(1.12)}
+.peacock-door{transition:transform 2.12s cubic-bezier(.3,.05,.24,1);backface-visibility:hidden;opacity:1}
+.opening .door-west,.opening .door-east{opacity:1}
+.peacock-hall{filter:brightness(.72);transition:filter 1.9s cubic-bezier(.25,.07,.34,1)}
+.opening .peacock-hall{filter:brightness(1.27)}
+body.locked.peacock-reveal main,body.locked.peacock-reveal header,body.locked.peacock-reveal footer{visibility:visible}
+body.peacock-reveal.invitation-open .invitation-card{animation:peacock-card-arrival 1.35s 1.02s cubic-bezier(.21,.57,.28,1) both}
+@keyframes peacock-card-arrival{from{opacity:.25;transform:translateY(10px) scale(.992)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#cover.peacock-cover,.peacock-stage,.peacock-door,.peacock-hall{transition:none}body.peacock-reveal.invitation-open .invitation-card{animation:none}}
+</style></head><body class="locked">
 <div id="cover" class="peacock-cover"><div class="peacock-stage" aria-hidden="true"><div class="peacock-hall"></div><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="seal peacock-open" data-t="palaceOpen" aria-label="Open wedding invitation"></button></div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
 <main><section class="hero sacred-page" aria-labelledby="invitation-title"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -266,21 +279,30 @@ seal.onclick=()=>{
  openingStarted=true;
  seal.disabled=true;
  resetToTop();
- cover.classList.add('opening');
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- setTimeout(()=>{
+ const finishReveal=()=> {
+  if(cover.hidden)return;
+  cover.removeEventListener('transitionend',onCoverFade);
   cover.hidden=true;
   pageMain.inert=false;
   document.querySelector('header').inert=false;
   document.querySelector('footer').inert=false;
   document.body.classList.remove('locked');
   resetToTop();
-  document.body.classList.add('invitation-open');
   const heading=document.querySelector('#invitation-title');
   heading.setAttribute('tabindex','-1');
   heading.focus({preventScroll:true});
   requestAnimationFrame(resetToTop);
- },reduced?0:2600);
+ };
+ const onCoverFade=(event)=>{
+  if(event.target===cover&&event.propertyName==='opacity')finishReveal();
+ };
+ document.body.classList.add('peacock-reveal','invitation-open');
+ if(reduced){finishReveal();return;}
+ cover.addEventListener('transitionend',onCoverFade);
+ cover.classList.add('opening');
+ // The fallback also handles a background tab or a cancelled transition.
+ setTimeout(finishReveal,2650);
 };
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
 
