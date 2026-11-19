@@ -384,26 +384,31 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
 .procession-row .event-stamp{grid-column:3;grid-row:1;justify-self:start}
 .procession-row.is-reversed .event-banner{grid-column:3;justify-self:start}
 .procession-row.is-reversed .event-stamp{grid-column:1;justify-self:end}
-.event-banner{
-  position:relative;width:min(100%,252px);min-height:145px;padding:23px 12px;
-  color:#fff0d2;background:radial-gradient(ellipse at 50% 5%,#883d46,#522032 78%);
+.event-banner{position:relative;width:min(100%,252px)}
+.event-scroll-paper{
+  min-height:145px;padding:23px 12px;color:#fff0d2;
+  background:radial-gradient(ellipse at 50% 5%,#883d46,#522032 78%);
   border:6px double #cfa763;border-radius:5px 5px 16px 16px;
-  box-shadow:0 8px 18px #51222b35;transform-origin:top center;
   display:grid;align-content:center;gap:7px;text-align:center;
-  transition:opacity .65s,transform .85s cubic-bezier(.22,.68,.28,1),box-shadow .35s;
+  clip-path:inset(0);transition:clip-path .72s cubic-bezier(.22,.68,.28,1);
 }
-body.scroll-effects .event-banner:not(.is-unrolled){opacity:.25;transform:scaleY(.18)}
 .event-banner::before,.event-banner::after{
-  content:'';position:absolute;left:-9px;right:-9px;height:7px;
+  content:'';position:absolute;z-index:1;left:-9px;right:-9px;height:7px;
   border:1px solid #916239;border-radius:9px;
   background:linear-gradient(#f4d49a,#b67b40 58%,#714525);
+  box-shadow:0 3px 6px #51222b35;
 }
-.event-banner::before{top:-10px}.event-banner::after{bottom:-10px}
+.event-banner::before{top:-5px}
+.event-banner::after{top:calc(100% - 3px);transition:top .72s cubic-bezier(.22,.68,.28,1)}
+@media(prefers-reduced-motion:no-preference){
+  .scroll-effects .procession-row:not(.is-current) .event-scroll-paper{clip-path:inset(0 0 calc(100% - 9px) 0)}
+  .scroll-effects .procession-row:not(.is-current) .event-banner::after{top:6px}
+}
 .event-banner h4{font-size:clamp(17px,3vw,28px);line-height:1.22;font-weight:500;margin:0}
 .event-banner time{font-size:clamp(13px,2vw,17px);color:#f3d7a4}
 .event-banner .banner-ornament{font-size:23px;line-height:1;color:#dbb477}
 .event-stamp{color:#783e43;font-style:italic;font-size:clamp(17px,2.6vw,30px);margin:0;padding:0 9px}
-.procession-row.is-current .event-banner{box-shadow:0 10px 28px #7b293963,0 0 0 2px #cda26680}
+.procession-row.is-current .event-banner{filter:drop-shadow(0 7px 10px #7b293948)}
 .visually-hidden{
   position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip-path:inset(50%);white-space:nowrap;border:0;
@@ -422,14 +427,13 @@ body.scroll-effects .event-banner:not(.is-unrolled){opacity:.25;transform:scaleY
 @media(max-width:650px){
   .procession-row{grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr);min-height:195px}
   .procession-track{width:30px}.procession-car{height:56px}
-  .event-banner{min-height:125px;padding:15px 5px}
+  .event-scroll-paper{min-height:125px;padding:15px 5px}
   .event-stamp{padding:0 6px;line-height:1.3}
   .royal-portraits{padding-inline:18px}
 }
 @media(prefers-reduced-motion:reduce){
   .rose-fall,.procession-car{display:none}
   body.scroll-effects .scroll-entry:not(.in-view){opacity:1;transform:none}
-  body.scroll-effects .event-banner:not(.is-unrolled){opacity:1;transform:none}
 }
 </style></head><body class="locked"><div class="rose-fall" aria-hidden="true"></div>
 <div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><div class="door-transition-light" aria-hidden="true"></div><button class="peacock-open" type="button" aria-label="Open the invitation"></button></div>
@@ -544,9 +548,11 @@ function renderEvents() {
      const alignment = eventIndex++ % 2 ? ' is-reversed' : '';
      return `<article class="procession-row${alignment}">
        <div class="event-banner">
-         <span class="banner-ornament" aria-hidden="true">❦</span>
-         <h4>${name}</h4>
-         <time>${details.times[day][index]}</time>
+         <div class="event-scroll-paper">
+           <span class="banner-ornament" aria-hidden="true">❦</span>
+           <h4>${name}</h4>
+           <time>${details.times[day][index]}</time>
+         </div>
        </div>
        <p class="event-stamp" aria-hidden="true">${date}</p>
      </article>`;
@@ -758,27 +764,26 @@ if (brush) {
 }
 
 const dayList = document.querySelector('#days');
+const processionCar = document.querySelector('.procession-car');
 let processionFrame = 0;
 
 function updateProcession() {
  processionFrame = 0;
- const viewport = window.innerHeight;
- const bounds = dayList.getBoundingClientRect();
- if (bounds.bottom < -viewport || bounds.top > 2 * viewport) return;
- const rows = Array.from(dayList.querySelectorAll('.procession-row'));
- const readingLine = viewport * .52;
- let closest = null;
- let closestDistance = Infinity;
- for (const row of rows) {
-   const rect = row.getBoundingClientRect();
-   const distance = Math.abs(rect.top + rect.height / 2 - readingLine);
-   if (distance < closestDistance) {
-     closest = row;
-     closestDistance = distance;
+ const rows = dayList.querySelectorAll('.procession-row');
+ const car = processionCar.getBoundingClientRect();
+ const carCenter = car.top + car.height / 2;
+ let current = null;
+ if (car.height && carCenter > 0 && carCenter < window.innerHeight) {
+   for (const row of rows) {
+     const box = row.getBoundingClientRect();
+     const distance = Math.abs(box.top + box.height / 2 - carCenter);
+     if (distance <= Math.min(78, box.height * .36)) {
+       current = row;
+       break;
+     }
    }
-   if (rect.top < viewport * .87) row.firstElementChild.classList.add('is-unrolled');
  }
- for (const row of rows) row.classList.toggle('is-current', row === closest);
+ for (const row of rows) row.classList.toggle('is-current', row === current);
 }
 function queueProcession() {
  if (!processionFrame) processionFrame = requestAnimationFrame(updateProcession);
