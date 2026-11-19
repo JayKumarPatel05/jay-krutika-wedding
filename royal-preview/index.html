@@ -193,47 +193,70 @@ html:not([lang=en]) .courtyard-names{font:inherit;font-size:clamp(35px,8vw,90px)
 .opening .door-east{transform:rotateY(91deg);opacity:0}
 @media(prefers-reduced-motion:reduce){.peacock-door{transition:none}}
 #cover.peacock-cover[hidden]{display:none}
-/* The courtyard sits behind the doorway, so the same view fills the screen as the camera moves forward. */
-#cover.peacock-cover{transition:opacity .95s 4.6s ease-in-out,visibility 0s 5.55s}
-.sunset-courtyard{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#d49256,#3b241b 78%);pointer-events:none;opacity:0;transition:opacity .55s .18s ease}
-.opening .sunset-courtyard{opacity:1}
-.sunset-courtyard img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 53%;transform:scale(1.025)}
-.sunset-courtyard::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#261610a6 0%,#26161032 33%,transparent 54%);opacity:0;transition:opacity 1s 2.15s}
-.courtyard-names{
-  position:absolute;z-index:1;inset:clamp(36px,11svh,105px) 18px auto;
-  margin:0;text-align:center;color:#fff3d9;text-shadow:0 2px 14px #2c170f;
-  font:400 clamp(54px,10vw,112px)/1.18 'Great Vibes',cursive;opacity:0;transform:translateY(12px);
-  transition:opacity .9s 2.6s ease,transform 1.15s 2.45s cubic-bezier(.22,.61,.36,1);
+/* The courtyard is the first section of the invitation, visible through the opening doors. */
+main{max-width:none}
+.invitation-content{max-width:1000px;margin:auto}
+.sunset-courtyard{
+  min-height:100svh;padding:0;overflow:hidden;isolation:isolate;color:#fff3d9;
+  background:radial-gradient(ellipse at 50% 42%,#d49256,#3b241b 78%);
 }
-html:not([lang=en]) .courtyard-names{font-family:inherit;font-size:clamp(33px,7.3vw,74px);line-height:1.45}
+.sunset-courtyard picture,.sunset-courtyard::after{position:absolute;inset:0;pointer-events:none}
+.sunset-courtyard img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 53%;transform:scale(1.025)}
+.sunset-courtyard::after{
+  content:'';background:linear-gradient(180deg,#261610a6 0%,#26161032 28%,transparent 51%,transparent 76%,#261610bd 100%);
+}
+.courtyard-heading{
+  position:absolute;z-index:1;inset:clamp(82px,15svh,156px) 18px auto;
+  margin:0;text-shadow:0 2px 14px #2c170f;
+  font:400 clamp(54px,10vw,112px)/1.18 'Great Vibes',cursive;
+  opacity:0;transform:translateY(12px);transition:opacity .85s 2s ease,transform .95s 2s ease;
+}
+html:not([lang=en]) .courtyard-heading{font-family:inherit;font-size:clamp(33px,7.3vw,74px);line-height:1.45}
+.courtyard-scroll{
+  position:absolute;z-index:1;left:50%;bottom:max(24px,calc(env(safe-area-inset-bottom) + 12px));
+  display:grid;justify-items:center;gap:9px;padding:10px 17px;border:1px solid #fff3d955;border-radius:40px;
+  background:#22140e9c;color:inherit;text-decoration:none;white-space:nowrap;
+  font:500 13px/1.25 system-ui,sans-serif;opacity:0;transform:translate(-50%,8px);
+  transition:opacity .65s 2.55s ease,transform .65s 2.55s ease,background-color .2s ease;
+}
+.courtyard-scroll:hover{background:#22140eda}
+.courtyard-scroll::after{content:'';width:7px;height:7px;border-right:1px solid;border-bottom:1px solid;transform:rotate(45deg)}
+body.courtyard-revealed main{visibility:visible}
+.courtyard-revealed .sunset-courtyard img{transition:transform 3.3s cubic-bezier(.21,.56,.4,1);transform:scale(1.08)}
+.courtyard-revealed .courtyard-heading{opacity:1;transform:none}
+.courtyard-revealed .courtyard-scroll{opacity:1;transform:translate(-50%,0)}
+body.at-courtyard header{background:linear-gradient(#24150e8c,transparent);color:#fff3d9;border-color:transparent;backdrop-filter:none}
+body.at-courtyard header nav{background:#251711bd;border-radius:999px}
+body.at-courtyard header nav button{color:#fff3d9}
+body.at-courtyard header nav button[aria-pressed=true]{background:#f4d39e26;color:#ffe1aa}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+#cover.peacock-cover{transition:none}
+#cover.peacock-cover.opening{opacity:1;visibility:visible}
+#cover.peacock-cover::before{
+  content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,#89613e,#261a14 76%);
+  transition:opacity .55s .18s ease;pointer-events:none;
+}
+#cover.peacock-cover.opening::before{opacity:0}
 .peacock-stage{z-index:1;transform-origin:50% 70%}
 .peacock-door{transition:transform 2.12s cubic-bezier(.3,.05,.24,1);backface-visibility:hidden;opacity:1}
 .opening .door-west,.opening .door-east{opacity:1}
 .opening .peacock-stage{animation:through-peacock-door 2.75s cubic-bezier(.42,0,.33,1) both}
-.opening .sunset-courtyard img{transition:transform 5.55s cubic-bezier(.21,.56,.4,1);transform:scale(1.12)}
-.opening .sunset-courtyard::after,.opening .courtyard-names{opacity:1}
-.opening .courtyard-names{transform:none}
 @keyframes through-peacock-door{
   0%,13%{transform:translateX(-50%) scale(1);opacity:1}
   70%{opacity:1}
   100%{transform:translate(-50%,-18svh) scale(5.2);opacity:0}
 }
-body.locked.peacock-reveal main,body.locked.peacock-reveal header,body.locked.peacock-reveal footer{visibility:visible}
-body.peacock-reveal.invitation-open .invitation-card{animation:peacock-card-arrival 1.25s 4.3s cubic-bezier(.21,.57,.28,1) both}
-@keyframes peacock-card-arrival{from{opacity:.25;transform:translateY(10px) scale(.992)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){
-  #cover.peacock-cover,.peacock-door,.sunset-courtyard,.sunset-courtyard img,.sunset-courtyard::after,.courtyard-names{transition:none}
-  #cover.peacock-cover.opening{opacity:1;visibility:visible}
+  #cover.peacock-cover::before,.peacock-door,.courtyard-revealed .sunset-courtyard img,.courtyard-heading,.courtyard-scroll{transition:none}
   .opening .peacock-stage{animation:none;visibility:hidden}
-  .opening .sunset-courtyard img{transform:none}
-  body.peacock-reveal.invitation-open .invitation-card{animation:none}
+  .courtyard-revealed .sunset-courtyard img{transform:none}
 }
 
 /* Keep the top and bottom of the artwork in view at every aspect ratio. */
 #cover.peacock-cover{
   --stage-width: min(150svh, max(100vw, 112svh));
   --stage-inset: max(0px, calc((100svh - var(--stage-width) / 1.5) / 2));
-  background: radial-gradient(ellipse at center,#89613e,#261a14 76%);
+  background:transparent;
 }
 .peacock-stage{width:var(--stage-width);bottom:var(--stage-inset)}
 #cover .peacock-open{
@@ -258,9 +281,15 @@ body.peacock-reveal.invitation-open .invitation-card{animation:peacock-card-arri
 .opening .peacock-languages{opacity:0;visibility:hidden}
 @media(prefers-reduced-motion:reduce){.peacock-languages{transition:none}}
 </style></head><body class="locked">
-<div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="sunset-courtyard" aria-hidden="true"><picture><source media="(max-aspect-ratio: 3/4)" srcset="./sunset-courtyard-portrait.webp"><img src="./sunset-courtyard.webp" alt="" fetchpriority="high"></picture><p class="courtyard-names" data-t="coverNames"></p></div><div class="peacock-stage" aria-hidden="true"><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="peacock-open" type="button" aria-label="Open the invitation"></button></div>
+<div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="peacock-open" type="button" aria-label="Open the invitation"></button></div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
-<main><section class="hero sacred-page" aria-labelledby="invitation-title"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<main>
+<section class="sunset-courtyard" aria-labelledby="courtyard-title">
+  <picture><source media="(max-aspect-ratio: 3/4)" srcset="./sunset-courtyard-portrait.webp"><img src="./sunset-courtyard.webp" alt="" fetchpriority="high"></picture>
+  <h1 class="courtyard-heading" id="courtyard-title" tabindex="-1" data-t="coverNames"></h1>
+  <a class="courtyard-scroll" href="#invitation-page" data-t="courtyardScroll"></a>
+</section>
+<div class="invitation-content"><section id="invitation-page" class="hero sacred-page" aria-labelledby="invitation-title" tabindex="-1"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <circle cx="90" cy="83" r="66" stroke-width=".65" opacity=".2"/>
 <path d="M68 43 74 30l10 7 6-19 6 19 10-7 6 13M67 48q23-9 46 0M72 53q18-6 36 0"/>
 <path d="M68 61C53 44 32 53 35 75c2 18 15 29 32 25M112 61c15-17 36-8 33 14-2 18-15 29-32 25"/>
@@ -278,7 +307,7 @@ body.peacock-reveal.invitation-open .invitation-card{animation:peacock-card-arri
 <path d="m78 33-13 42c-2 7-5 12-9 17M82 48 72 81M102 33l13 42c2 7 5 12 9 17M98 48l10 33"/>
 <path d="M90 79c-5-7-11-4-14 3l-10 24c-3 7-8 10-12 13M90 79c5-7 11-4 14 3l10 24c3 7 8 10 12 13"/>
 <path d="m25 143 33 20M155 143l-33 20M20 151l-5 9 32 19 5-9M160 151l5 9-32 19-5-9"/>
-</svg><p data-t="familyGreeting"></p></div></section></main><footer><div class="ornament">❦</div><p data-t="closing"></p><span data-t="signature"></span></footer>
+</svg><p data-t="familyGreeting"></p></div></section></div></main><footer><div class="ornament">❦</div><p data-t="closing"></p><span data-t="signature"></span></footer>
 <script>
 const copy={en:{blessing:'With the blessings of our families',jay:'Jay',krutika:'Krutika',intro:'With joyful hearts, we invite you to celebrate our wedding and the beginning of a beautiful new chapter.',dates:'25 & 26 DECEMBER 2026',city:'Kolkata · West Bengal',discover:'Explore the celebrations',together:'Two days of love, laughter & tradition',celebrations:'Our wedding celebrations',venueLabel:'Join us at',venue:'Shree Lakshmi Narayan Mandir',address:'42, Sarat Bose Road, Lansdown, Paddapukur,<br>Bhowanipore, Kolkata, West Bengal',directions:'Get directions',closing:'Your presence and blessings will make our celebration complete.',signature:'With love, Jay & Krutika',days:['Days','Hours','Minutes','Seconds'],datesShort:['25 December 2026','26 December 2026'],events:[['Mandap Muhurat','Haldi Carnival','Pithi Muhurat','Garba Night'],['Baraat Departure','Jaan Aagman','Hasta Melap','Vidai','Shubh Ashirwad & Dinner']],times:[['8:15 AM','10:00 AM','12:30–1:30 PM','6:00 PM onwards'],['1:00 PM','2:30 PM','3:15 PM','5:45 PM','7:00 PM onwards']]},
 hi:{blessing:'परिवारजनों के शुभ आशीर्वाद से',jay:'जय',krutika:'कृतिका',intro:'हमारे विवाह के शुभ अवसर पर सपरिवार पधारकर हमें अपना स्नेह और आशीर्वाद प्रदान करें।',dates:'२५ एवं २६ दिसंबर २०२६',city:'कोलकाता · पश्चिम बंगाल',discover:'मंगल कार्यक्रम',together:'प्रेम, उल्लास और परंपराओं का उत्सव',celebrations:'विवाह के मंगल कार्यक्रम',venueLabel:'शुभ स्थल',venue:'श्री लक्ष्मी नारायण मंदिर',address:'४२, शरत बोस रोड, लैंसडाउन, पद्दपुकुर,<br>भवानीपुर, कोलकाता, पश्चिम बंगाल',directions:'मार्ग देखें',closing:'आपकी उपस्थिति एवं शुभ आशीर्वाद हमारी खुशियों को पूर्ण करेंगे।',signature:'सप्रेम, जय एवं कृतिका',days:['दिन','घंटे','मिनट','सेकंड'],datesShort:['२५ दिसंबर २०२६','२६ दिसंबर २०२६'],events:[['मंडप मुहूर्त','हल्दी कार्निवल','पीठी मुहूर्त','गरबा संध्या'],['बारात प्रस्थान','बारात आगमन','हस्त मिलाप','विदाई','शुभ आशीर्वाद एवं स्वरुचि भोज']],times:[['प्रातः ८:१५','प्रातः १०:००','दोपहर १२:३०–१:३०','सायं ६:०० बजे से'],['दोपहर १:००','दोपहर २:३०','दोपहर ३:१५','सायं ५:४५','सायं ७:०० बजे से']]},
@@ -298,6 +327,9 @@ for (const [language, entries] of Object.entries(extraFamily)) {
 copy.en.palaceOpen = 'Open the invitation';
 copy.hi.palaceOpen = 'निमंत्रण खोलें';
 copy.gu.palaceOpen = 'આમંત્રણ ખોલો';
+copy.en.courtyardScroll = 'Scroll to the invitation';
+copy.hi.courtyardScroll = 'निमंत्रण के लिए नीचे जाएँ';
+copy.gu.courtyardScroll = 'આમંત્રણ માટે નીચે જાઓ';
 copy.en.palaceCities = 'Ahmedabad · Kolkata';
 copy.hi.palaceCities = 'अहमदाबाद · कोलकाता';
 copy.gu.palaceCities = 'અમદાવાદ · કોલકાતા';
@@ -313,6 +345,13 @@ window.addEventListener('pageshow',()=>{if(document.body.classList.contains('loc
 const cover=document.querySelector('#cover');
 const coverOpen=cover.querySelector('.peacock-open');
 const pageMain=document.querySelector('main');
+const courtyard=pageMain.querySelector('.sunset-courtyard');
+const courtyardTitle=courtyard.querySelector('#courtyard-title');
+const doorStage=cover.querySelector('.peacock-stage');
+const courtyardObserver=new IntersectionObserver(([entry])=>{
+ document.body.classList.toggle('at-courtyard',entry.isIntersecting);
+},{rootMargin:'-64px 0px 0px'});
+courtyardObserver.observe(courtyard);
 pageMain.inert=true;
 document.querySelector('header').inert=true;
 document.querySelector('footer').inert=true;
@@ -331,26 +370,23 @@ coverOpen.onclick=()=>{
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const finishReveal=()=> {
   if(cover.hidden)return;
-  cover.removeEventListener('transitionend',onCoverFade);
+  doorStage.removeEventListener('animationend',onDoorArrival);
   cover.hidden=true;
   pageMain.inert=false;
   document.querySelector('header').inert=false;
   document.querySelector('footer').inert=false;
   document.body.classList.remove('locked');
   resetToTop();
-  const heading=document.querySelector('#invitation-title');
-  heading.setAttribute('tabindex','-1');
-  heading.focus({preventScroll:true});
-  requestAnimationFrame(resetToTop);
+  courtyardTitle.focus({preventScroll:true});
  };
- const onCoverFade=(event)=>{
-  if(event.target===cover&&event.propertyName==='opacity')finishReveal();
+ const onDoorArrival=(event)=>{
+  if(event.target===doorStage&&event.animationName==='through-peacock-door')finishReveal();
  };
- document.body.classList.add('peacock-reveal','invitation-open');
- if(!reduced)cover.addEventListener('transitionend',onCoverFade);
+ document.body.classList.add('courtyard-revealed','at-courtyard');
  cover.classList.add('opening');
- // Reduced motion gets a still view. The longer timeout guards the animated transition.
- setTimeout(finishReveal,reduced?1600:5750);
+ if(reduced){finishReveal();return;}
+ doorStage.addEventListener('animationend',onDoorArrival);
+ setTimeout(finishReveal,2950);
 };
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
 
