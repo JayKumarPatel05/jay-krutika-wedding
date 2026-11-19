@@ -313,52 +313,131 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
   margin-top:8px;padding:5px 10px;border:0;background:none;color:#76563f;
   font:500 12px system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;
 }
-#celebrations{--road-gold:#ab7553;--road-ink:#652c39;isolation:isolate}
-#celebrations .days{display:block;max-width:660px;margin:0 auto}
-#celebrations .day + .day{margin-top:48px}
-#celebrations .day h3{color:var(--road-ink);margin:24px 0 12px;text-align:center}
-#celebrations .event{
-  position:relative;align-items:center;padding:19px 17px;border:1px solid transparent;border-bottom-color:#ab755348;
-  border-radius:10px;transition:background-color .45s,border-color .45s;
+/* Hand-painted shutters and the scroll-led procession. */
+.royal-date,.royal-portraits{background:#f9efe0;padding:65px 24px}
+.royal-date{padding-bottom:32px}
+.royal-date h2,.royal-portraits h2{color:#672f38}
+.royal-date .eyebrow,.royal-portraits .eyebrow{letter-spacing:.14em}
+.royal-gate,.portrait-shutter{
+  display:block;position:relative;margin:auto;padding:0;background:none;border:0;
+  width:min(100%,390px);color:inherit;text-align:center;
 }
-#celebrations .event.is-current{background:#fff8ec;border-color:#c49871}
-#celebrations .event time{padding:0}
-.event-journey{
-  position:sticky;z-index:2;top:70px;padding:15px 0 13px;margin:10px auto 16px;max-width:660px;
-  background:linear-gradient(#f6dacb 78%,#f6dacb00);pointer-events:none;
+.shutter-frame{
+  display:grid;place-items:center;position:relative;overflow:hidden;isolation:isolate;perspective:650px;
+  min-height:150px;border:6px double #d3aa61;border-radius:12px 12px 3px 3px;
+  box-shadow:0 7px 20px #4e22192b,inset 0 0 0 3px #803f36;
+  background:radial-gradient(ellipse at top,#8e3b40,#481724);
 }
-.event-road{position:relative;height:57px;margin:0 14px;border-bottom:1px dashed var(--road-gold)}
-.event-road::before{
-  content:'';position:absolute;left:0;bottom:-1px;height:2px;width:calc(var(--journey,0) * 100%);
-  background:var(--road-ink);border-radius:3px;
+.shutter-frame::before,.shutter-frame::after{
+  content:'';position:absolute;z-index:1;top:0;bottom:0;width:50%;
+  background:
+    repeating-linear-gradient(45deg,#7b4d321f 0 1px,transparent 1px 8px),
+    repeating-linear-gradient(-45deg,#7b4d3225 0 1px,transparent 1px 8px),
+    linear-gradient(112deg,#eed79a,#b78244 72%,#d8b375);
+  border:3px double #845331;transition:transform 1.05s cubic-bezier(.25,.62,.26,1);
 }
-.event-car{
-  position:absolute;left:0;bottom:2px;height:54px;width:min(108px,30%);object-fit:contain;object-position:center bottom;
+.shutter-frame::before{left:0;transform-origin:left}
+.shutter-frame::after{right:0;transform-origin:right}
+.shutter-control[aria-expanded=true] .shutter-frame::before{transform:rotateY(-115deg)}
+.shutter-control[aria-expanded=true] .shutter-frame::after{transform:rotateY(115deg)}
+.shutter-copy{
+  position:relative;z-index:2;display:block;margin:10px auto 0;
+  font:600 13px/1.45 system-ui,sans-serif;color:#783c42;
 }
-.event-lane{
-  position:absolute;inset:0 min(108px,30%) 0 0;
-  transform:translateX(calc(var(--journey,0) * 100%));will-change:transform;
+.gate-date{color:#fff0cc;font-size:clamp(21px,5vw,34px);padding:18px 15px}
+.royal-portraits .portrait-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,5vw,45px);max-width:600px;margin:0 auto}
+.portrait-shutter .shutter-frame{aspect-ratio:3/4;min-height:0;border-radius:48% 48% 7px 7px / 28% 28% 7px 7px}
+.portrait-art{position:absolute;inset:0;background:url("./wedding-portraits.webp") no-repeat;background-size:200% 100%;background-position:left center}
+.portrait-bride .portrait-art{background-position:right center}
+.portrait-name{display:block;margin-top:3px;color:#652c39;font-size:clamp(19px,4vw,29px)}
+.scratch-section{background:#fff3e3;padding:42px 22px}
+.scratch-section h2{color:#672f38;margin:0 auto 18px}
+.scratch-section .auspicious-date{color:#6e4932}
+#celebrations{--road-ink:#672638;isolation:isolate;background:radial-gradient(ellipse at top,#f8e6d1,#f9eee2 52%,#f3dfcf)}
+#celebrations .days{display:block;max-width:790px;margin:0 auto;position:relative}
+.royal-procession{position:relative;max-width:790px;margin:0 auto}
+.procession-track{
+  position:absolute;z-index:2;inset:0 auto 0 50%;width:48px;transform:translateX(-50%);
+  pointer-events:none;
 }
-.event-lane .event-car{width:108px;max-width:43%}
+.procession-track::before{
+  content:'';position:absolute;top:0;bottom:0;left:50%;border-left:1px dashed #a47652;
+}
+.procession-car{display:block;position:sticky;top:48svh;width:100%;height:79px;object-fit:contain}
+.procession-day{margin:0}
+.procession-day+.procession-day{margin-top:15px}
+.procession-row{
+  display:grid;grid-template-columns:minmax(0,1fr) 68px minmax(0,1fr);
+  min-height:245px;align-items:center;gap:0;text-align:center;
+}
+.procession-row .event-banner{grid-column:1;grid-row:1;justify-self:end}
+.procession-row .event-stamp{grid-column:3;grid-row:1;justify-self:start}
+.procession-row.is-reversed .event-banner{grid-column:3;justify-self:start}
+.procession-row.is-reversed .event-stamp{grid-column:1;justify-self:end}
+.event-banner{
+  position:relative;width:min(100%,252px);min-height:145px;padding:23px 12px;
+  color:#fff0d2;background:radial-gradient(ellipse at 50% 5%,#883d46,#522032 78%);
+  border:6px double #cfa763;border-radius:5px 5px 16px 16px;
+  box-shadow:0 8px 18px #51222b35;transform-origin:top center;
+  display:grid;align-content:center;gap:7px;text-align:center;
+  transition:opacity .65s,transform .85s cubic-bezier(.22,.68,.28,1),box-shadow .35s;
+}
+body.scroll-effects .event-banner:not(.is-unrolled){opacity:.25;transform:scaleY(.18)}
+.event-banner::before,.event-banner::after{
+  content:'';position:absolute;left:-9px;right:-9px;height:7px;
+  border:1px solid #916239;border-radius:9px;
+  background:linear-gradient(#f4d49a,#b67b40 58%,#714525);
+}
+.event-banner::before{top:-10px}.event-banner::after{bottom:-10px}
+.event-banner h4{font-size:clamp(17px,3vw,28px);line-height:1.22;font-weight:500;margin:0}
+.event-banner time{font-size:clamp(13px,2vw,17px);color:#f3d7a4}
+.event-banner .banner-ornament{font-size:23px;line-height:1;color:#dbb477}
+.event-stamp{color:#783e43;font-style:italic;font-size:clamp(15px,2.4vw,28px);margin:0;padding:0 9px}
+.procession-row.is-current .event-banner{box-shadow:0 10px 28px #7b293963,0 0 0 2px #cda26680}
+.visually-hidden{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip-path:inset(50%);white-space:nowrap;border:0;
+}
+.door-transition-light{
+  position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse at 50% 64%,#fff2d0 0%,#f2c98185 31%,transparent 73%);
+  transform:scale(.28);
+}
+.opening .door-transition-light{animation:door-light 2.75s ease both}
+@keyframes door-light{
+  0%,34%{opacity:0;transform:scale(.28)}
+  61%{opacity:.9;transform:scale(1.5)}
+  100%{opacity:0;transform:scale(2.2)}
+}
 @media(max-width:650px){
-  .event-journey{top:60px}.event-road{margin:0 5px}.event-lane{right:82px}
-  .event-lane .event-car{width:82px;max-width:none}
-  #celebrations .event{grid-template-columns:92px 1fr;gap:9px;padding:14px 10px}
+  .procession-row{grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr);min-height:195px}
+  .procession-track{width:30px}.procession-car{height:56px}
+  .event-banner{min-height:125px;padding:15px 5px}
+  .event-stamp{padding:0 6px;line-height:1.3}
+  .royal-date,.royal-portraits{padding-inline:18px}
 }
 @media(prefers-reduced-motion:reduce){
-  .rose-fall,.event-journey{display:none}
+  .rose-fall,.procession-car{display:none}
   body.scroll-effects .scroll-entry:not(.in-view){opacity:1;transform:none}
+  body.scroll-effects .event-banner:not(.is-unrolled){opacity:1;transform:none}
 }
 </style></head><body class="locked"><div class="rose-fall" aria-hidden="true"></div>
-<div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="peacock-open" type="button" aria-label="Open the invitation"></button></div>
+<div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><div class="door-transition-light" aria-hidden="true"></div><button class="peacock-open" type="button" aria-label="Open the invitation"></button></div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
 <main>
 <section class="sunset-courtyard" aria-labelledby="courtyard-title">
   <picture><source media="(max-aspect-ratio: 3/4)" srcset="./sunset-courtyard-portrait.webp"><img src="./sunset-courtyard.webp" alt="" fetchpriority="high"></picture>
   <h1 class="courtyard-heading" id="courtyard-title" tabindex="-1" data-t="coverNames"></h1>
-  <a class="courtyard-scroll" href="#invitation-page" data-t="courtyardScroll"></a>
+  <a class="courtyard-scroll" href="#wedding-date-gate" data-t="courtyardScroll"></a>
 </section>
-<div class="invitation-content"><section id="invitation-page" class="hero sacred-page" aria-labelledby="invitation-title" tabindex="-1"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<div class="invitation-content">
+<section class="royal-date" id="wedding-date-gate" tabindex="-1" aria-labelledby="royal-date-title">
+  <h2 id="royal-date-title" data-t="weddingDateTitle"></h2>
+  <button type="button" class="royal-gate shutter-control" aria-expanded="false" aria-controls="gate-date">
+    <span class="shutter-frame"><span class="gate-date" id="gate-date" data-t="weddingDateShort" aria-hidden="true"></span></span>
+    <span class="shutter-copy" data-t="openDateGate"></span>
+  </button>
+</section><section id="invitation-page" class="hero sacred-page" aria-labelledby="invitation-title" tabindex="-1"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <circle cx="90" cy="83" r="66" stroke-width=".65" opacity=".2"/>
 <path d="M68 43 74 30l10 7 6-19 6 19 10-7 6 13M67 48q23-9 46 0M72 53q18-6 36 0"/>
 <path d="M68 61C53 44 32 53 35 75c2 18 15 29 32 25M112 61c15-17 36-8 33 14-2 18-15 29-32 25"/>
@@ -368,17 +447,42 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
 <path d="M65 112c-13 3-21 15-18 27M115 112c13 3 21 15 18 27M61 121c-6 9-5 18 2 23M119 121c6 9 5 18-2 23"/>
 <path d="M49 130c-11-8-23 1-19 13 4 13 25 17 46 12M131 130c11-8 23 1 19 13-4 13-25 17-46 12M42 164q48 7 96 0"/>
 <path d="M37 118v-12q0-5 4-5t4 5v9M35 120c-4-3-6 1-3 6l6 7M136 120q7-7 13 0M138 115l5-9 5 9"/>
-</svg><p class="ganesh-prayer" data-t="ganeshPrayer"></p><p class="invocation" data-t="invocation"></p><h2 id="invitation-title" class="invitation-title" data-t="invitationTitle"></h2><div class="sacred-rule" aria-hidden="true">✧</div><p class="sacred-intro" data-t="sacredIntro"></p><div class="family-block groom-family"><p class="parents" data-t="groomParents"></p><p class="relation" data-t="sonOf"></p></div><h1 class="formal-name" data-t="groomFormal"></h1><p class="wedding-union" data-t="weddingUnion"></p><p class="formal-name bride-name" data-t="brideFormal"></p><p class="hometown" data-t="brideHome"></p><div class="family-block bride-family"><p class="parents" data-t="brideParents"></p><p class="relation" data-t="daughterOf"></p></div><div class="sacred-rule" aria-hidden="true">✧</div><div class="scratch-date">
+</svg><p class="ganesh-prayer" data-t="ganeshPrayer"></p><p class="invocation" data-t="invocation"></p><h2 id="invitation-title" class="invitation-title" data-t="invitationTitle"></h2><div class="sacred-rule" aria-hidden="true">✧</div><p class="sacred-intro" data-t="sacredIntro"></p><div class="family-block groom-family"><p class="parents" data-t="groomParents"></p><p class="relation" data-t="sonOf"></p></div><h1 class="formal-name" data-t="groomFormal"></h1><p class="wedding-union" data-t="weddingUnion"></p><p class="formal-name bride-name" data-t="brideFormal"></p><p class="hometown" data-t="brideHome"></p><div class="family-block bride-family"><p class="parents" data-t="brideParents"></p><p class="relation" data-t="daughterOf"></p></div><div class="sacred-rule" aria-hidden="true">✧</div><p class="family-invite" data-t="familyInvite"></p><p class="sacred-closing" data-t="sacredClosing"></p><a class="button celebration-link" href="#celebrations" data-t="discover"></a></article></section><section class="countdown-section"><div class="eyebrow" data-t="countdownTitle"></div><div class="countdown" aria-label="Wedding countdown"></div></section>
+<section class="scratch-section" aria-labelledby="save-the-date-title">
+  <h2 id="save-the-date-title" data-t="saveTheDate"></h2>
+  <div class="scratch-date">
   <div class="scratch-surface">
     <p class="auspicious-date" id="wedding-date" data-t="auspiciousDate" aria-hidden="true" tabindex="-1"></p>
     <canvas class="scratch-foil" aria-hidden="true"></canvas>
     <p class="scratch-instruction" data-t="scratchDate" aria-hidden="true"></p>
   </div>
   <button type="button" class="scratch-fallback" aria-controls="wedding-date" data-t="revealDate"></button>
-</div><p class="family-invite" data-t="familyInvite"></p><p class="sacred-closing" data-t="sacredClosing"></p><a class="button celebration-link" href="#celebrations" data-t="discover"></a></article></section><section class="countdown-section"><div class="eyebrow" data-t="countdownTitle"></div><div class="countdown" aria-label="Wedding countdown"></div></section>
-<section class="schedule reveal" id="celebrations"><div class="eyebrow" data-t="together"></div><h2 data-t="celebrations"></h2><div class="ornament" aria-hidden="true">❦</div><div class="event-journey" aria-hidden="true">
-  <div class="event-road"><div class="event-lane"><img class="event-car" src="./wedding-car.webp" alt="" decoding="async"></div></div>
-</div><div class="days" id="days"></div></section>
+</div>
+</section>
+<section class="royal-portraits" aria-labelledby="portrait-title">
+  <h2 id="portrait-title" data-t="portraitTitle"></h2>
+  <div class="portrait-pair">
+    <button type="button" class="portrait-shutter shutter-control" aria-expanded="false" aria-controls="groom-art">
+      <span class="shutter-frame"><span class="portrait-art" id="groom-art" aria-hidden="true"></span></span>
+      <span class="shutter-copy" data-t="groomLabel"></span>
+      <span class="portrait-name" data-t="groomFormal"></span>
+    </button>
+    <button type="button" class="portrait-shutter shutter-control portrait-bride" aria-expanded="false" aria-controls="bride-art">
+      <span class="shutter-frame"><span class="portrait-art" id="bride-art" aria-hidden="true"></span></span>
+      <span class="shutter-copy" data-t="brideLabel"></span>
+      <span class="portrait-name" data-t="brideFormal"></span>
+    </button>
+  </div>
+</section>
+<section class="schedule reveal" id="celebrations">
+  <div class="eyebrow" data-t="together"></div>
+  <h2 data-t="celebrations"></h2>
+  <div class="ornament" aria-hidden="true">❦</div>
+  <div class="royal-procession">
+    <div class="procession-track" aria-hidden="true"><img class="procession-car" src="./procession-car.webp" alt="" decoding="async"></div>
+    <div class="days" id="days"></div>
+  </div>
+</section>
 <section class="venue reveal"><svg class="temple" viewBox="0 0 180 120" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 110h160M20 103h140M30 95h120V65H30v30M23 65h134L90 50 23 65ZM65 50V35h50v15M70 35 90 10l20 25M90 10V0l15 4-15 4M77 95V72q13-16 26 0v23M40 76h15v19M125 95V76h15M38 66v-8M142 66v-8"/></svg><div class="eyebrow" data-t="venueLabel"></div><h2 data-t="venue"></h2><p data-t="address"></p><div class="line"></div><a class="button" href="https://share.google/Y071H4zzC0nV3YYYM" target="_blank" rel="noopener"><svg class="directions-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-t="directions"></span></a></section><section class="family-section reveal" aria-labelledby="family-title"><div class="ornament" aria-hidden="true">❦</div><h2 id="family-title" data-t="familyTitle"></h2><p class="family-intro" data-t="familyIntro"></p><div class="family-couples"><table><tbody id="family-couples"></tbody></table></div><div class="family-children"><ul class="ordered-family-list" id="family-young"></ul></div><div class="family-group"><h3 class="eyebrow" data-t="extraFamily0"></h3><ul><li data-t="extraFamily1"></li><li data-t="extraFamily2"></li><li data-t="extraFamily3"></li></ul></div><div class="family-group"><h3 class="eyebrow" data-t="extraFamily4"></h3><ul><li data-t="extraFamily5"></li></ul></div><div class="family-greeting"><svg class="prayer-hands" viewBox="0 0 180 184" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <path d="M90 22c-1-10-10-12-14-3L61 66c-3 10-9 17-15 26-7 11-6 24-13 37l-13 22 32 19 22-36c10-12 16-23 16-39V22Z"/>
 <path d="M90 22c1-10 10-12 14-3l15 47c3 10 9 17 15 26 7 11 6 24 13 37l13 22-32 19-22-36c-10-12-16-23-16-39V22Z"/>
@@ -411,12 +515,49 @@ copy.gu.courtyardScroll = 'આમંત્રણ માટે નીચે જ�
 Object.assign(copy.en,{scratchDate:'Scratch to reveal the wedding date',revealDate:'Reveal wedding date'});
 Object.assign(copy.hi,{scratchDate:'शादी की तारीख जानने के लिए खुरचें',revealDate:'शादी की तारीख देखें'});
 Object.assign(copy.gu,{scratchDate:'લગ્નની તારીખ જાણવા ખોતરો',revealDate:'લગ્નની તારીખ જુઓ'});
+const revealCopy = {
+ en:{weddingDateTitle:'The Wedding Date',openDateGate:'Open the date gate',closeDateGate:'Close the date gate',saveTheDate:'Save the Date',portraitTitle:'The Couple',groomLabel:'The Groom',brideLabel:'The Bride'},
+ hi:{weddingDateTitle:'विवाह की तिथि',openDateGate:'तिथि देखने के लिए द्वार खोलें',closeDateGate:'द्वार बंद करें',saveTheDate:'यह तारीख याद रखें',portraitTitle:'वर और वधू',groomLabel:'वर',brideLabel:'वधू'},
+ gu:{weddingDateTitle:'લગ્નની તારીખ',openDateGate:'તારીખ જોવા દ્વાર ખોલો',closeDateGate:'દ્વાર બંધ કરો',saveTheDate:'તારીખ યાદ રાખજો',portraitTitle:'વર અને વધૂ',groomLabel:'વર',brideLabel:'વધૂ'}
+};
+for (const [language, labels] of Object.entries(revealCopy)) {
+ Object.assign(copy[language], labels, {weddingDateShort:copy[language].datesShort[1]});
+}
 copy.en.palaceCities = 'Ahmedabad · Kolkata';
 copy.hi.palaceCities = 'अहमदाबाद · कोलकाता';
 copy.gu.palaceCities = 'અમદાવાદ · કોલકાતા';
 let lang=localStorage.getItem('wedding-language')||'en';if(!copy[lang])lang='en';
 function countdown(){const left=Math.max(0,new Date('2026-12-26T15:15:00+05:30')-Date.now());const values=[Math.floor(left/86400000),Math.floor(left/3600000)%24,Math.floor(left/60000)%60,Math.floor(left/1000)%60];document.querySelector('.countdown').innerHTML=values.map((n,i)=>`<div><b>${n.toLocaleString(lang==='gu'?'gu-IN':lang==='hi'?'hi-IN':'en-IN',{minimumIntegerDigits:2})}</b><small>${copy[lang].days[i]}</small></div>`).join('')}
-function render(){document.documentElement.lang=lang;document.querySelector('.peacock-open').setAttribute('aria-label',copy[lang].palaceOpen);renderFamily();document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=copy[lang][e.dataset.t]);document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));document.querySelector('#days').innerHTML=copy[lang].events.map((events,d)=>`<article class="day"><h3>${copy[lang].datesShort[d]}</h3>${events.map((name,i)=>`<div class="event"><time>${copy[lang].times[d][i]}</time><span>${name}</span></div>`).join('')}</article>`).join('');countdown()}
+function renderEvents() {
+ const details = copy[lang];
+ let eventIndex = 0;
+ document.querySelector('#days').innerHTML = details.events.map((events, day) => {
+   const date = details.datesShort[day];
+   const rows = events.map((name, index) => {
+     const alignment = eventIndex++ % 2 ? ' is-reversed' : '';
+     return `<article class="procession-row${alignment}">
+       <div class="event-banner">
+         <span class="banner-ornament" aria-hidden="true">❦</span>
+         <h4>${name}</h4>
+         <time>${details.times[day][index]}</time>
+       </div>
+       <p class="event-stamp" aria-hidden="true">${date}</p>
+     </article>`;
+   }).join('');
+   return `<section class="procession-day" aria-labelledby="procession-day-${day}">
+     <h3 class="visually-hidden" id="procession-day-${day}">${date}</h3>${rows}
+   </section>`;
+ }).join('');
+}
+function render(){
+ document.documentElement.lang=lang;
+ document.querySelector('.peacock-open').setAttribute('aria-label',copy[lang].palaceOpen);
+ renderFamily();
+ document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=copy[lang][e.dataset.t]);
+ document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+ renderEvents();
+ countdown();
+}
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;localStorage.setItem('wedding-language',lang);render()});render();setInterval(countdown,1000);
 if('scrollRestoration' in history)history.scrollRestoration='manual';
 const resetInviteTop=()=>window.scrollTo({top:0,left:0,behavior:'instant'});
@@ -478,12 +619,36 @@ const entryObserver = new IntersectionObserver(entries => {
   }
 }, {threshold: .08});
 document.body.classList.add('scroll-effects');
-document.querySelectorAll('.invitation-card, .countdown-section, .schedule, .venue, .family-section, footer').forEach(section => {
+document.querySelectorAll('.invitation-card, .countdown-section, .scratch-section, .schedule, .venue, .family-section, footer').forEach(section => {
   section.classList.add('scroll-entry');
   entryObserver.observe(section);
 });
 document.querySelectorAll('.reveal').forEach(section => entryObserver.observe(section));
 
+function setShutter(button, open) {
+ button.setAttribute('aria-expanded', String(open));
+ const content = document.getElementById(button.getAttribute('aria-controls'));
+ if (content.classList.contains('gate-date')) {
+   content.setAttribute('aria-hidden', String(!open));
+   const caption = button.querySelector('.shutter-copy');
+   caption.dataset.t = open ? 'closeDateGate' : 'openDateGate';
+   caption.textContent = copy[lang][caption.dataset.t];
+ }
+}
+const shutterObserver = new IntersectionObserver((entries, observer) => {
+ for (const entry of entries) {
+   if (!entry.isIntersecting) continue;
+   setShutter(entry.target, true);
+   observer.unobserve(entry.target);
+ }
+}, {threshold:.55});
+document.querySelectorAll('.shutter-control').forEach(button => {
+ shutterObserver.observe(button);
+ button.onclick = () => {
+   shutterObserver.unobserve(button);
+   setShutter(button, button.getAttribute('aria-expanded') !== 'true');
+ };
+});
 const petalLayer = document.querySelector('.rose-fall');
 if (!motionPreference.matches) {
   for (let i = 0; i < 19; i++) {
@@ -593,38 +758,36 @@ if (brush) {
   revealWeddingDate();
 }
 
-const schedule = document.querySelector('#celebrations');
-const dayList = schedule.querySelector('.days');
-const road = schedule.querySelector('.event-road');
-let journeyFrame = 0;
+const dayList = document.querySelector('#days');
+let processionFrame = 0;
 
-function updateJourney() {
-  journeyFrame = 0;
-  if (motionPreference.matches) return;
-  const viewport = window.innerHeight;
-  const bounds = dayList.getBoundingClientRect();
-  const readingLine = viewport * .53;
-  if (bounds.bottom < -viewport || bounds.top > 2 * viewport) return;
-  const rows = Array.from(dayList.querySelectorAll('.event'));
-  const centers = rows.map(row => {
-    const rect = row.getBoundingClientRect();
-    return rect.top + rect.height / 2;
-  });
-  if (centers.length < 2) return;
-  const progress = Math.max(0, Math.min(1,
-    (readingLine - centers[0]) / (centers.at(-1) - centers[0])));
-  road.style.setProperty('--journey', progress);
-  const current = centers.reduce((nearest, position, index) =>
-    Math.abs(readingLine - position) < Math.abs(readingLine - centers[nearest]) ? index : nearest, 0);
-  rows.forEach((row, index) => row.classList.toggle('is-current', index === current));
+function updateProcession() {
+ processionFrame = 0;
+ const viewport = window.innerHeight;
+ const bounds = dayList.getBoundingClientRect();
+ if (bounds.bottom < -viewport || bounds.top > 2 * viewport) return;
+ const rows = Array.from(dayList.querySelectorAll('.procession-row'));
+ const readingLine = viewport * .52;
+ let closest = null;
+ let closestDistance = Infinity;
+ for (const row of rows) {
+   const rect = row.getBoundingClientRect();
+   const distance = Math.abs(rect.top + rect.height / 2 - readingLine);
+   if (distance < closestDistance) {
+     closest = row;
+     closestDistance = distance;
+   }
+   if (rect.top < viewport * .87) row.firstElementChild.classList.add('is-unrolled');
+ }
+ for (const row of rows) row.classList.toggle('is-current', row === closest);
 }
-function queueJourney() {
-  if (!journeyFrame) journeyFrame = requestAnimationFrame(updateJourney);
+function queueProcession() {
+ if (!processionFrame) processionFrame = requestAnimationFrame(updateProcession);
 }
-window.addEventListener('scroll', queueJourney, {passive:true});
-window.addEventListener('resize', queueJourney);
-new ResizeObserver(queueJourney).observe(dayList);
-new MutationObserver(queueJourney).observe(dayList, {childList:true});
-queueJourney();
+window.addEventListener('scroll', queueProcession, {passive:true});
+window.addEventListener('resize', queueProcession);
+new ResizeObserver(queueProcession).observe(dayList);
+new MutationObserver(queueProcession).observe(dayList, {childList:true});
+queueProcession();
 
 </script></body></html>
