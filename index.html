@@ -362,8 +362,7 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
 }
 .royal-portraits .portrait-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,5vw,45px);max-width:600px;margin:0 auto}
 .portrait-shutter .shutter-frame{aspect-ratio:3/4;min-height:0;border-radius:48% 48% 7px 7px / 28% 28% 7px 7px}
-.portrait-art{position:absolute;inset:0;background:url("./wedding-portraits.webp") no-repeat;background-size:200% 100%;background-position:left center}
-.portrait-bride .portrait-art{background-position:right center}
+.portrait-art{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 28%}
 .portrait-name{display:block;margin-top:3px;color:#652c39;font-size:clamp(19px,4vw,29px)}
 .scratch-section{background:#fff3e3;padding:42px 22px}
 .scratch-section h2{color:#672f38;margin:0 auto 18px}
@@ -473,12 +472,12 @@ body.scroll-effects .event-banner:not(.is-unrolled){opacity:.25;transform:scaleY
   <h2 id="portrait-title" data-t="portraitTitle"></h2>
   <div class="portrait-pair">
     <button type="button" class="portrait-shutter shutter-control" aria-expanded="false" aria-controls="groom-art">
-      <span class="shutter-frame"><span class="portrait-art" id="groom-art" aria-hidden="true"></span></span>
+      <span class="shutter-frame"><img class="portrait-art" id="groom-art" src="./jay-wedding-portrait.webp" alt="" loading="lazy" decoding="async"></span>
       <span class="shutter-copy" data-t="groomLabel"></span>
       <span class="portrait-name" data-t="groomFormal"></span>
     </button>
-    <button type="button" class="portrait-shutter shutter-control portrait-bride" aria-expanded="false" aria-controls="bride-art">
-      <span class="shutter-frame"><span class="portrait-art" id="bride-art" aria-hidden="true"></span></span>
+    <button type="button" class="portrait-shutter shutter-control" aria-expanded="false" aria-controls="bride-art">
+      <span class="shutter-frame"><img class="portrait-art" id="bride-art" src="./krutika-wedding-portrait.webp" alt="" loading="lazy" decoding="async"></span>
       <span class="shutter-copy" data-t="brideLabel"></span>
       <span class="portrait-name" data-t="brideFormal"></span>
     </button>
