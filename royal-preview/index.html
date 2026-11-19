@@ -192,8 +192,6 @@ html:not([lang=en]) .courtyard-names{font:inherit;font-size:clamp(35px,8vw,90px)
 .peacock-door{transition:transform 1.75s cubic-bezier(.42,0,.23,1),opacity .6s 1.05s;will-change:transform,opacity}
 .opening .door-west{transform:rotateY(-91deg);opacity:0}
 .opening .door-east{transform:rotateY(91deg);opacity:0}
-#cover .peacock-open{position:absolute;top:auto;left:50%;bottom:clamp(26px,7svh,80px);z-index:2;transform:translateX(-50%);width:auto;height:auto;padding:12px 20px;background:#2d1b15e8;border:1px solid #eac184;border-radius:4px;color:#fff0d3;font:inherit;font-size:18px;box-shadow:0 4px 24px #0009;white-space:nowrap}
-#cover.opening .peacock-open{animation:none;opacity:0;transform:translateX(-50%);transition:opacity .2s}
 @media(prefers-reduced-motion:reduce){.peacock-door{transition:none}}
 #cover.peacock-cover[hidden]{display:none}
 /* Start uncovering the invitation while the doors are still moving. */
@@ -216,24 +214,29 @@ body.peacock-reveal.invitation-open .invitation-card{animation:peacock-card-arri
   background: radial-gradient(ellipse at center,#89613e,#261a14 76%);
 }
 .peacock-stage{width:var(--stage-width);bottom:var(--stage-inset)}
-#cover .peacock-open{bottom:calc(var(--stage-inset) + clamp(24px,6svh,64px))}
+#cover .peacock-open{
+  position:absolute;inset:0;z-index:2;width:100%;height:100%;
+  padding:0;border:0;background:transparent;appearance:none;
+}
+#cover .peacock-open:focus-visible{outline:2px solid #f4d39e;outline-offset:-5px}
+#cover.opening .peacock-open{pointer-events:none}
 .peacock-languages{
-  position:absolute;z-index:3;top:max(12px,env(safe-area-inset-top));
-  left:50%;transform:translateX(-50%);display:flex;gap:4px;
-  padding:4px;border:1px solid #dab079;background:#251711ed;
+  position:absolute;z-index:3;top:max(8px,env(safe-area-inset-top));
+  right:max(8px,env(safe-area-inset-right));gap:0;
+  padding:0 2px;border:1px solid #dab07959;background:#251711d9;
   border-radius:999px;transition:opacity .25s ease;
 }
 .peacock-languages button{
-  min-width:60px;min-height:40px;border:0;border-radius:999px;
-  padding:4px 10px;background:transparent;color:#fff0d3;
-  font:600 15px system-ui,sans-serif;white-space:nowrap;cursor:pointer;
+  min-height:32px;border:0;border-radius:999px;
+  padding:0 7px;background:transparent;color:#efddc5;
+  font:500 12px system-ui,sans-serif;white-space:nowrap;cursor:pointer;
 }
-.peacock-languages button[aria-pressed="true"]{background:#f4d39e;color:#321e14}
+.peacock-languages button[aria-pressed="true"]{background:#f4d39e26;color:#ffe1aa}
 .peacock-languages button:focus-visible{outline:2px solid #fff0d3;outline-offset:2px}
 .opening .peacock-languages{opacity:0;visibility:hidden}
 @media(prefers-reduced-motion:reduce){.peacock-languages{transition:none}}
 </style></head><body class="locked">
-<div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-hall"></div><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="seal peacock-open" data-t="palaceOpen"></button></div>
+<div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-hall"></div><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="peacock-open" type="button" aria-label="Open the invitation"></button></div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
 <main><section class="hero sacred-page" aria-labelledby="invitation-title"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <circle cx="90" cy="83" r="66" stroke-width=".65" opacity=".2"/>
@@ -270,15 +273,15 @@ const extraFamily = {"gu":["મોસાળ પક્ષ","ભાવેશ જ�
 for (const [language, entries] of Object.entries(extraFamily)) {
   entries.forEach((entry, index) => { copy[language]['extraFamily' + index] = entry; });
 }
-copy.en.palaceOpen = 'Tap to open the gates';
-copy.hi.palaceOpen = 'द्वार खोलने के लिए स्पर्श करें';
-copy.gu.palaceOpen = 'દ્વાર ખોલવા સ્પર્શ કરો';
+copy.en.palaceOpen = 'Open the invitation';
+copy.hi.palaceOpen = 'निमंत्रण खोलें';
+copy.gu.palaceOpen = 'આમંત્રણ ખોલો';
 copy.en.palaceCities = 'Ahmedabad · Kolkata';
 copy.hi.palaceCities = 'अहमदाबाद · कोलकाता';
 copy.gu.palaceCities = 'અમદાવાદ · કોલકાતા';
 let lang=localStorage.getItem('wedding-language')||'en';if(!copy[lang])lang='en';
 function countdown(){const left=Math.max(0,new Date('2026-12-26T15:15:00+05:30')-Date.now());const values=[Math.floor(left/86400000),Math.floor(left/3600000)%24,Math.floor(left/60000)%60,Math.floor(left/1000)%60];document.querySelector('.countdown').innerHTML=values.map((n,i)=>`<div><b>${n.toLocaleString(lang==='gu'?'gu-IN':lang==='hi'?'hi-IN':'en-IN',{minimumIntegerDigits:2})}</b><small>${copy[lang].days[i]}</small></div>`).join('')}
-function render(){document.documentElement.lang=lang;renderFamily();document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=copy[lang][e.dataset.t]);document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));document.querySelector('#days').innerHTML=copy[lang].events.map((events,d)=>`<article class="day"><h3>${copy[lang].datesShort[d]}</h3>${events.map((name,i)=>`<div class="event"><time>${copy[lang].times[d][i]}</time><span>${name}</span></div>`).join('')}</article>`).join('');countdown()}
+function render(){document.documentElement.lang=lang;document.querySelector('.peacock-open').setAttribute('aria-label',copy[lang].palaceOpen);renderFamily();document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=copy[lang][e.dataset.t]);document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));document.querySelector('#days').innerHTML=copy[lang].events.map((events,d)=>`<article class="day"><h3>${copy[lang].datesShort[d]}</h3>${events.map((name,i)=>`<div class="event"><time>${copy[lang].times[d][i]}</time><span>${name}</span></div>`).join('')}</article>`).join('');countdown()}
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;localStorage.setItem('wedding-language',lang);render()});render();setInterval(countdown,1000);
 if('scrollRestoration' in history)history.scrollRestoration='manual';
 const resetInviteTop=()=>window.scrollTo({top:0,left:0,behavior:'instant'});
@@ -286,7 +289,7 @@ if(location.hash)history.replaceState(null,'',location.pathname+location.search)
 resetInviteTop();
 window.addEventListener('pageshow',()=>{if(document.body.classList.contains('locked'))resetInviteTop()});
 const cover=document.querySelector('#cover');
-const seal=document.querySelector('.seal');
+const coverOpen=cover.querySelector('.peacock-open');
 const pageMain=document.querySelector('main');
 pageMain.inert=true;
 document.querySelector('header').inert=true;
@@ -298,10 +301,10 @@ resetToTop();
 window.addEventListener('pageshow',()=>{if(document.body.classList.contains('locked'))resetToTop()});
 window.addEventListener('load',()=>{if(document.body.classList.contains('locked'))resetToTop()},{once:true});
 let openingStarted=false;
-seal.onclick=()=>{
+coverOpen.onclick=()=>{
  if(openingStarted)return;
  openingStarted=true;
- seal.disabled=true;
+ coverOpen.disabled=true;
  resetToTop();
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  const finishReveal=()=> {
