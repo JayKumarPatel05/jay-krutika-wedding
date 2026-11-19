@@ -208,8 +208,32 @@ body.locked.peacock-reveal main,body.locked.peacock-reveal header,body.locked.pe
 body.peacock-reveal.invitation-open .invitation-card{animation:peacock-card-arrival 1.35s 1.02s cubic-bezier(.21,.57,.28,1) both}
 @keyframes peacock-card-arrival{from{opacity:.25;transform:translateY(10px) scale(.992)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){#cover.peacock-cover,.peacock-stage,.peacock-door,.peacock-hall{transition:none}body.peacock-reveal.invitation-open .invitation-card{animation:none}}
+
+/* Keep the top and bottom of the artwork in view at every aspect ratio. */
+#cover.peacock-cover{
+  --stage-width: min(150svh, max(100vw, 112svh));
+  --stage-inset: max(0px, calc((100svh - var(--stage-width) / 1.5) / 2));
+  background: radial-gradient(ellipse at center,#89613e,#261a14 76%);
+}
+.peacock-stage{width:var(--stage-width);bottom:var(--stage-inset)}
+#cover .peacock-open{bottom:calc(var(--stage-inset) + clamp(24px,6svh,64px))}
+.peacock-languages{
+  position:absolute;z-index:3;top:max(12px,env(safe-area-inset-top));
+  left:50%;transform:translateX(-50%);display:flex;gap:4px;
+  padding:4px;border:1px solid #dab079;background:#251711ed;
+  border-radius:999px;transition:opacity .25s ease;
+}
+.peacock-languages button{
+  min-width:60px;min-height:40px;border:0;border-radius:999px;
+  padding:4px 10px;background:transparent;color:#fff0d3;
+  font:600 15px system-ui,sans-serif;white-space:nowrap;cursor:pointer;
+}
+.peacock-languages button[aria-pressed="true"]{background:#f4d39e;color:#321e14}
+.peacock-languages button:focus-visible{outline:2px solid #fff0d3;outline-offset:2px}
+.opening .peacock-languages{opacity:0;visibility:hidden}
+@media(prefers-reduced-motion:reduce){.peacock-languages{transition:none}}
 </style></head><body class="locked">
-<div id="cover" class="peacock-cover"><div class="peacock-stage" aria-hidden="true"><div class="peacock-hall"></div><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="seal peacock-open" data-t="palaceOpen" aria-label="Open wedding invitation"></button></div>
+<div id="cover" class="peacock-cover"><nav class="peacock-languages" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav><div class="peacock-stage" aria-hidden="true"><div class="peacock-hall"></div><div class="peacock-mural"></div><div class="peacock-door door-west"></div><div class="peacock-door door-east"></div></div><button class="seal peacock-open" data-t="palaceOpen"></button></div>
 <header><span class="brand">J & K</span><nav aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="hi" aria-pressed="false">हिन्दी</button><button data-lang="gu" aria-pressed="false">ગુજરાતી</button></nav></header>
 <main><section class="hero sacred-page" aria-labelledby="invitation-title"><div class="heavenly-light" aria-hidden="true"></div><article class="invitation-card"><div class="card-corner tl" aria-hidden="true">❦</div><div class="card-corner tr" aria-hidden="true">❦</div><div class="card-corner bl" aria-hidden="true">❦</div><div class="card-corner br" aria-hidden="true">❦</div><svg class="sacred-ganpati" viewBox="0 0 180 180" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 <circle cx="90" cy="83" r="66" stroke-width=".65" opacity=".2"/>
