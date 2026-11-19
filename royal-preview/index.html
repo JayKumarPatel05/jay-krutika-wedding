@@ -247,7 +247,10 @@ main{max-width:none}
 html:not([lang=en]) .courtyard-kicker{font-family:inherit;letter-spacing:.03em}
 html:not([lang=en]) .courtyard-heading{font-family:inherit;font-size:clamp(30px,6vw,75px);line-height:1.5}
 .courtyard-welcome{
-  max-width:29em;margin:8px auto 0;color:#fff1d2;font-size:clamp(15px,2.1vw,23px);line-height:1.5;
+  position:absolute;z-index:2;inset:auto 24px max(86px,calc(env(safe-area-inset-bottom) + 72px));
+  max-width:29em;margin:0 auto;text-align:center;color:#fff1d2;text-shadow:0 1px 7px #240d08,0 1px 3px #240d08;
+  font-size:clamp(15px,2.1vw,23px);line-height:1.45;
+  opacity:0;transform:translateY(8px);transition:opacity .65s 2.55s ease,transform .65s 2.55s ease;
 }
 .courtyard-scroll{
   position:absolute;z-index:2;left:50%;bottom:max(30px,calc(env(safe-area-inset-bottom) + 16px));
@@ -262,7 +265,7 @@ html:not([lang=en]) .courtyard-heading{font-family:inherit;font-size:clamp(30px,
 }
 body.courtyard-revealed main{visibility:visible}
 .courtyard-revealed .sunset-courtyard img{transition:transform 3.3s cubic-bezier(.21,.56,.4,1);transform:scale(1.05)}
-.courtyard-revealed .courtyard-lockup{opacity:1;transform:none}
+.courtyard-revealed .courtyard-lockup,.courtyard-revealed .courtyard-welcome{opacity:1;transform:none}
 .courtyard-revealed .courtyard-scroll{opacity:1;transform:translate(-50%,0)}
 body.at-courtyard header{background:linear-gradient(#24150e8c,transparent);color:#fff3d9;border-color:transparent;backdrop-filter:none}
 body.at-courtyard header nav{background:#251711bd;border-radius:999px}
@@ -292,7 +295,7 @@ body.at-courtyard header nav button[aria-pressed=true]{background:#f4d39e26;colo
   100%{transform:translate(-50%,-52%) scale(5.2);opacity:0}
 }
 @media(prefers-reduced-motion:reduce){
-  #cover.palace-cover::before,.palace-door,.courtyard-revealed .sunset-courtyard img,.courtyard-lockup,.courtyard-scroll{transition:none}
+  #cover.palace-cover::before,.palace-door,.courtyard-revealed .sunset-courtyard img,.courtyard-lockup,.courtyard-welcome,.courtyard-scroll{transition:none}
   .opening .palace-stage{animation:none;visibility:hidden}
   .courtyard-revealed .sunset-courtyard img{transform:none}
 }
@@ -536,8 +539,8 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
   <div class="courtyard-lockup">
     <p class="courtyard-kicker" data-t="invitationTitle"></p>
     <h1 class="courtyard-heading" id="courtyard-title" tabindex="-1" data-t="coverNames"></h1>
-    <p class="courtyard-welcome" data-t="courtyardWelcome"></p>
   </div>
+  <p class="courtyard-welcome" data-t="courtyardWelcome"></p>
   <a class="courtyard-scroll" href="#wedding-date-card"><span class="down-arrow" aria-hidden="true"></span><span class="visually-hidden" data-t="courtyardScroll"></span></a>
 </section>
 <div class="invitation-content">
