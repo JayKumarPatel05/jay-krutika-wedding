@@ -363,9 +363,11 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
 }
 .scratch-confirmation{width:94%;margin:8px auto 0;color:#73523e;font-size:clamp(13px,3.5vw,16px);line-height:1.26}
 .scratch-foil{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.scratch-date.is-finishing .scratch-foil{pointer-events:none}
+.scratch-date.is-scratching .scratch-instruction{opacity:0}
 .scratch-instruction{
   position:absolute;inset:0;display:grid;place-items:start center;margin:0;padding:41% 9% 0;text-align:center;
-  font:650 14px/1.4 system-ui,sans-serif;color:#432413;pointer-events:none;
+  font:650 14px/1.4 system-ui,sans-serif;color:#432413;pointer-events:none;transition:opacity .28s ease;
 }
 .scratch-instruction[hidden],.scratch-foil[hidden],.scratch-fallback[hidden]{display:none}
 .scratch-fallback{
@@ -564,9 +566,9 @@ body.scroll-effects .scroll-entry:not(.in-view){opacity:0;transform:translateY(2
   <h2 id="save-the-date-title" data-t="saveTheDate"></h2>
   <div class="scratch-date">
   <div class="scratch-surface">
-    <div class="scratch-reveal">
-      <time class="auspicious-date" id="wedding-date" datetime="2026-12-26" data-t="weddingDateShort" aria-hidden="true" tabindex="-1"></time>
-      <p class="scratch-confirmation" data-t="auspiciousDate" hidden></p>
+    <div class="scratch-reveal" aria-hidden="true">
+      <time class="auspicious-date" id="wedding-date" datetime="2026-12-26" data-t="weddingDateShort" tabindex="-1"></time>
+      <p class="scratch-confirmation" data-t="auspiciousDate"></p>
     </div>
     <canvas class="scratch-foil" aria-hidden="true"></canvas>
     <p class="scratch-instruction" data-t="scratchDate" aria-hidden="true"></p>
@@ -825,14 +827,26 @@ const brush = foil.getContext('2d', {willReadFrequently:true});
 let scratchPointer = null;
 let lastPoint = null;
 let foilPainted = false;
+let revealingDate = false;
 
 function revealWeddingDate(moveFocus = false) {
-  foil.hidden = true;
-  instruction.hidden = true;
-  revealButton.hidden = true;
-  weddingDate.removeAttribute('aria-hidden');
-  scratch.querySelector('.scratch-confirmation').hidden = false;
-  if (moveFocus) weddingDate.focus({preventScroll:true});
+  if (revealingDate) return;
+  revealingDate = true;
+  scratch.classList.add('is-finishing', 'is-scratching');
+  const finish = () => {
+    foil.hidden = true;
+    instruction.hidden = true;
+    revealButton.hidden = true;
+    weddingDate.parentElement.removeAttribute('aria-hidden');
+    if (moveFocus) weddingDate.focus({preventScroll:true});
+  };
+  if (!foilPainted || motionPreference.matches || !foil.animate) {
+    finish();
+    return;
+  }
+  foil.animate([{opacity:1},{opacity:0}], {
+    duration:1350, easing:'cubic-bezier(.38,.05,.33,1)', fill:'forwards'
+  }).finished.then(finish, finish);
 }
 function paintFoil() {
   if (foil.hidden) return;
@@ -863,22 +877,28 @@ function paintFoil() {
     for (let x = 5 + (y % 11); x < width; x += 11) brush.fillRect(x, y, 1, 1);
   }
 }
-function scratchAt(event) {
-  const rect = foil.getBoundingClientRect();
-  const point = [event.clientX - rect.left, event.clientY - rect.top];
-  brush.globalCompositeOperation = 'destination-out';
-  brush.lineWidth = 36;
-  brush.lineCap = 'round';
+function eraseStroke(point, width, opacity) {
+  brush.globalAlpha = opacity;
+  brush.lineWidth = width;
   brush.beginPath();
   if (lastPoint) {
     brush.moveTo(...lastPoint);
     brush.lineTo(...point);
     brush.stroke();
   } else {
-    brush.arc(...point, 18, 0, Math.PI * 2);
+    brush.arc(...point, width / 2, 0, Math.PI * 2);
     brush.fill();
   }
+}
+function scratchAt(event, rect) {
+  const point = [event.clientX - rect.left, event.clientY - rect.top];
+  const width = Math.max(23, foil.width * .089);
+  brush.globalCompositeOperation = 'destination-out';
+  brush.lineCap = 'round';
+  eraseStroke(point, width + 6, .24);
+  eraseStroke(point, width, 1);
   lastPoint = point;
+  brush.globalAlpha = 1;
   brush.globalCompositeOperation = 'source-over';
 }
 function endScratch(event) {
@@ -888,7 +908,7 @@ function endScratch(event) {
   const pixels = brush.getImageData(0, 0, foil.width, foil.height).data;
   let cleared = 0;
   for (let i = 3; i < pixels.length; i += 40) if (pixels[i] === 0) cleared++;
-  if (cleared / Math.ceil(pixels.length / 40) >= .24) revealWeddingDate();
+  if (cleared / Math.ceil(pixels.length / 40) >= .38) revealWeddingDate();
 }
 revealButton.onclick = () => revealWeddingDate(true);
 if (brush) {
@@ -898,11 +918,14 @@ if (brush) {
     if (event.button !== 0 || scratchPointer !== null) return;
     scratchPointer = event.pointerId;
     foil.setPointerCapture(scratchPointer);
-    instruction.hidden = true;
-    scratchAt(event);
+    scratch.classList.add('is-scratching');
+    scratchAt(event, foil.getBoundingClientRect());
   });
   foil.addEventListener('pointermove', event => {
-    if (event.pointerId === scratchPointer) scratchAt(event);
+    if (event.pointerId !== scratchPointer) return;
+    const rect = foil.getBoundingClientRect();
+    const points = event.getCoalescedEvents?.();
+    for (const point of points?.length ? points : [event]) scratchAt(point, rect);
   });
   foil.addEventListener('lostpointercapture', endScratch);
 } else {
